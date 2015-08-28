@@ -6,5 +6,9 @@ package com.videvox;
 public class app {
     public static void main(String[] args){
         System.out.println("Hello, world!");
+        talk();
+    }
+    public static void talk(){
+        System.out.println("Talk");
     }
 }
