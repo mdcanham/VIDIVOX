@@ -1,4 +1,4 @@
-package com.videvox;
+package com.vidivox;
 
 /**
  * 
