@@ -81,6 +81,9 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 
+# Meta-INF for JAR artifacts
+/src/META-INF/
+
 ################ OSX ################
 .DS_Store
 .AppleDouble
