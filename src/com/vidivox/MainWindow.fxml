@@ -65,10 +65,10 @@
                </ToolBar>
             <ToolBar prefHeight="120.0" prefWidth="600.0">
                <items>
-                  <TextArea prefHeight="100.0" prefWidth="441.0" promptText="Enter up to 20 words to add to the video..." />
+                  <TextArea fx:id="mainSpeechTextArea" prefHeight="100.0" prefWidth="441.0" promptText="Enter up to 20 words to add to the video..." />
                   <Pane prefHeight="100.0" prefWidth="155.0">
                      <children>
-                        <Button layoutX="18.0" layoutY="9.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Preview" />
+                        <Button layoutX="18.0" layoutY="9.0" mnemonicParsing="false" onAction="#handleSpeechPreviewButton" prefHeight="25.0" prefWidth="120.0" text="Preview" />
                         <Button layoutX="18.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Add..." />
                         <Button layoutX="18.0" layoutY="70.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Save and Add..." />
                      </children>
