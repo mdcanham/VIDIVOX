@@ -82,7 +82,7 @@ crashlytics.properties
 crashlytics-build.properties
 
 # Meta-INF for JAR artifacts
-/src/META-INF/
+/META-INF/
 
 ################ OSX ################
 .DS_Store
