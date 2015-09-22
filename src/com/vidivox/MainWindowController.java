@@ -3,15 +3,13 @@ package com.vidivox;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
@@ -21,11 +19,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainWindowController {
 
     @FXML
     private MediaView mainMediaViewer = new MediaView();
+    private MediaPlayer mainMediaPlayer;
 
     @FXML
     private TextArea mainSpeechTextArea = new TextArea();
@@ -40,15 +41,25 @@ public class MainWindowController {
     private MenuBar mainMenuBar = new MenuBar();
 
     @FXML
+    private Slider mainProgressSlider;
+
+    @FXML
     private void handleOpenVideoButton(){
         final FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(new Stage());
 
         if (file != null) {
             try {
-                mainMediaViewer.setMediaPlayer(new MediaPlayer(new Media(
-                        file.toURI().toString())
-                ));
+
+                //Get rid of the current video that is playing if there is one
+                if(mainMediaPlayer != null){
+                    mainMediaPlayer.dispose();
+                }
+
+                mainMediaPlayer = new MediaPlayer(new Media(file.toURI().toString()));
+                mainMediaViewer.setMediaPlayer(mainMediaPlayer);
+                initaliseProgressSlider();
+
             } catch(MediaException e) {
                 if( e.getType() == MediaException.Type.MEDIA_UNSUPPORTED ){
                     System.out.println("Sorry, we didn't recognise that file type. Currently VIDIVOX supports MP4 files.");
@@ -60,10 +71,10 @@ public class MainWindowController {
     @FXML
     private void handlePlayPauseButton(){
         try {
-            if(mainMediaViewer.getMediaPlayer().getStatus() == MediaPlayer.Status.PLAYING){
-                mainMediaViewer.getMediaPlayer().pause();
+            if(mainMediaPlayer.getStatus() == MediaPlayer.Status.PLAYING){
+                mainMediaPlayer.pause();
             } else {
-                mainMediaViewer.getMediaPlayer().play();
+                mainMediaPlayer.play();
             }
         } catch (NullPointerException e){
             //This is where we tell the user that they need to load in video content before they can play the video
@@ -121,6 +132,42 @@ public class MainWindowController {
             @Override
             public void handle(ActionEvent arg0) {
                 speechOptionBar.setVisible(false);
+            }
+        });
+    }
+
+
+    private void initaliseProgressSlider(){
+
+        mainMediaPlayer.setOnReady(new Runnable() {
+            @Override
+            public void run() {
+                mainProgressSlider.setValue(0);
+                mainProgressSlider.setMin(0);
+                mainProgressSlider.setMax(mainMediaPlayer.getTotalDuration().toMillis());
+
+                //Add a timer to check the current position of the video
+                TimerTask updateSliderPosition = new TimerTask() {
+                    @Override
+                    public void run() {
+                        mainProgressSlider.setValue(mainMediaPlayer.getCurrentTime().toMillis());
+                    }
+                };
+                Timer durationTimer = new Timer();
+                durationTimer.schedule(updateSliderPosition, 0, 100);
+
+                //Listen for changes made to the progress slider by the user
+                mainProgressSlider.valueProperty().addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+
+                        //Add a threshold that will stop the video skipping when the timer updates the slider position
+                        if(Math.abs((double)oldValue - (double)newValue) > 150){
+                            mainMediaPlayer.seek(new Duration((Double) newValue));
+                        }
+
+                    }
+                });
             }
         });
     }
