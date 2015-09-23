@@ -44,10 +44,12 @@ public class MainWindowController {
     private Slider mainProgressSlider;
 
     @FXML
+    private Slider mainVolumeSlider;
+
+    @FXML
     private void handleOpenVideoButton(){
         final FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(new Stage());
-
         if (file != null) {
             try {
 
@@ -59,6 +61,7 @@ public class MainWindowController {
                 mainMediaPlayer = new MediaPlayer(new Media(file.toURI().toString()));
                 mainMediaViewer.setMediaPlayer(mainMediaPlayer);
                 initaliseProgressSlider();
+                initaliseVolumeSlider();
 
             } catch(MediaException e) {
                 if( e.getType() == MediaException.Type.MEDIA_UNSUPPORTED ){
@@ -140,7 +143,6 @@ public class MainWindowController {
         });
     }
 
-
     private void initaliseProgressSlider(){
 
         mainMediaPlayer.setOnReady(new Runnable() {
@@ -166,10 +168,27 @@ public class MainWindowController {
                     public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
 
                         //Add a threshold that will stop the video skipping when the timer updates the slider position
-                        if(Math.abs((double)oldValue - (double)newValue) > 150){
+                        if (Math.abs((double) oldValue - (double) newValue) > 150) {
                             mainMediaPlayer.seek(new Duration((Double) newValue));
                         }
 
+                    }
+                });
+            }
+        });
+    }
+
+    private void initaliseVolumeSlider(){
+        mainMediaPlayer.setOnReady(new Runnable() {
+            @Override
+            public void run() {
+                mainVolumeSlider.setMax(1);
+                mainVolumeSlider.setValue(1);
+                mainMediaPlayer.setVolume(mainVolumeSlider.getValue());
+                mainVolumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                        mainMediaPlayer.setVolume((double)newValue);
                     }
                 });
             }
