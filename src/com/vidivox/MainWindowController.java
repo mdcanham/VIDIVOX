@@ -106,6 +106,19 @@ public class MainWindowController {
     }
 
     @FXML
+    private void handleSaveAudioButton(){
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save speech to mp3 file");
+        fileChooser.setInitialFileName("Dialogue.mp3");
+        File file = fileChooser.showSaveDialog(new Stage());
+
+        System.out.println("The file: " + file.toString());
+
+        FestivalSpeech textToSpeak = new FestivalSpeech(mainSpeechTextArea.getText());
+        textToSpeak.exportToMP3(file);
+    }
+
+    @FXML
     private void handleMouseMoved(){
         FadeTransition menuFT = new FadeTransition(Duration.millis(10000), mainMenuBar);
         playFadingAnimation(menuFT);
@@ -199,7 +212,8 @@ public class MainWindowController {
         });
         //Listen for changes in the scene's height, and change the mediaview accordingly.
         mainWindow.getScene().heightProperty().addListener(new ChangeListener<Number>() {
-            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
                 mainMediaViewer.setFitHeight(mainWindow.getScene().getHeight());
             }
         });
