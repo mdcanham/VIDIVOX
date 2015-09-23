@@ -98,24 +98,23 @@ public class MainWindowController {
         festival.speak();
     }
 
+    private void playFadingAnimation(FadeTransition t){
+        //Reduces code duplication by moving this repeated code here.
+        t.setFromValue(1.0);
+        t.setToValue(0.0);
+        t.playFromStart();
+    }
+
     @FXML
     private void handleMouseMoved(){
         FadeTransition menuFT = new FadeTransition(Duration.millis(10000), mainMenuBar);
-        menuFT.setFromValue(1.0);
-        menuFT.setToValue(0.0);
-        menuFT.playFromStart();
+        playFadingAnimation(menuFT);
         FadeTransition videoFT = new FadeTransition(Duration.millis(10000), videoOptionBar);
-        videoFT.setFromValue(1.0);
-        videoFT.setToValue(0.0);
-        videoFT.playFromStart();
+        playFadingAnimation(videoFT);
         FadeTransition sliderFT = new FadeTransition(Duration.millis(10000), mainProgressSlider);
-        sliderFT.setFromValue(1.0);
-        sliderFT.setToValue(0.0);
-        sliderFT.playFromStart();
+        playFadingAnimation(sliderFT);
         FadeTransition speechFT = new FadeTransition(Duration.millis(10000), speechOptionBar);
-        speechFT.setFromValue(1.0);
-        speechFT.setToValue(0.0);
-        speechFT.playFromStart();
+        playFadingAnimation(speechFT);
     }
 
     @FXML
@@ -125,20 +124,19 @@ public class MainWindowController {
         }
         speechOptionBar.setVisible(true);
         FadeTransition speechFT = new FadeTransition(Duration.millis(100), speechOptionBar);
+        //Can't use the normal method here, its a fade in, not a fade out.
         speechFT.setFromValue(0.0);
         speechFT.setToValue(1.0);
         speechFT.playFromStart();
     }
 
     @FXML
-    private void handleReturnButton() {
+    private void handleCloseButton() {
         if (!speechOptionBar.isVisible()){
             return;
         }
         FadeTransition speechFT = new FadeTransition(Duration.millis(100), speechOptionBar);
-        speechFT.setFromValue(1.0);
-        speechFT.setToValue(0.0);
-        speechFT.playFromStart();
+        playFadingAnimation(speechFT);
         speechFT.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
