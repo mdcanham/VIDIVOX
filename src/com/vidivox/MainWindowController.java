@@ -60,8 +60,7 @@ public class MainWindowController {
 
                 mainMediaPlayer = new MediaPlayer(new Media(file.toURI().toString()));
                 mainMediaViewer.setMediaPlayer(mainMediaPlayer);
-                initaliseProgressSlider();
-                initaliseVolumeSlider();
+                initalisePlayEnvironment();
 
             } catch(MediaException e) {
                 if( e.getType() == MediaException.Type.MEDIA_UNSUPPORTED ){
@@ -143,7 +142,7 @@ public class MainWindowController {
         });
     }
 
-    private void initaliseProgressSlider(){
+    private void initalisePlayEnvironment(){
 
         mainMediaPlayer.setOnReady(new Runnable() {
             @Override
@@ -174,14 +173,8 @@ public class MainWindowController {
 
                     }
                 });
-            }
-        });
-    }
 
-    private void initaliseVolumeSlider(){
-        mainMediaPlayer.setOnReady(new Runnable() {
-            @Override
-            public void run() {
+                //Set up volume slider
                 mainVolumeSlider.setMax(1);
                 mainVolumeSlider.setValue(1);
                 mainMediaPlayer.setVolume(mainVolumeSlider.getValue());
