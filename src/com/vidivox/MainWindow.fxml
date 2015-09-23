@@ -21,9 +21,7 @@
       <ToolBar layoutY="187.0" prefHeight="40.0" prefWidth="200.0" translateY="180.0" BorderPane.alignment="CENTER_RIGHT">
         <items>
           <Button mnemonicParsing="false" text="Add Speech" />
-            <Button mnemonicParsing="false" text="Back" />
             <Button mnemonicParsing="false" text="Play/Pause" />
-            <Button mnemonicParsing="false" text="Forward" />
             <Slider />
         </items>
       </ToolBar>
@@ -60,9 +58,7 @@
             <ToolBar fx:id="videoOptionBar" opacity="0.0" prefHeight="30.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <items>
                 <Button mnemonicParsing="false" onAction="#handleAddSpeechButton" prefHeight="25.0" prefWidth="120.0" text="Add Speech..." />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Back" />
                   <Button mnemonicParsing="false" onAction="#handlePlayPauseButton" prefHeight="25.0" prefWidth="120.0" text="Play/Pause" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Forward" />
                   <Slider fx:id="mainVolumeSlider" prefHeight="12.0" prefWidth="250.0" />
               </items>
                </ToolBar>
