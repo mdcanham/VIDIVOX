@@ -101,6 +101,10 @@ public class MainWindowController {
         videoFT.setFromValue(1.0);
         videoFT.setToValue(0.0);
         videoFT.playFromStart();
+        FadeTransition sliderFT = new FadeTransition(Duration.millis(10000), mainProgressSlider);
+        sliderFT.setFromValue(1.0);
+        sliderFT.setToValue(0.0);
+        sliderFT.playFromStart();
         FadeTransition speechFT = new FadeTransition(Duration.millis(10000), speechOptionBar);
         speechFT.setFromValue(1.0);
         speechFT.setToValue(0.0);
