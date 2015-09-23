@@ -10,6 +10,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
@@ -44,6 +45,9 @@ public class MainWindowController {
     private Slider mainProgressSlider;
 
     @FXML
+    private BorderPane mainWindow;
+
+    @FXML
     private void handleOpenVideoButton(){
         final FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(new Stage());
@@ -59,6 +63,7 @@ public class MainWindowController {
                 mainMediaPlayer = new MediaPlayer(new Media(file.toURI().toString()));
                 mainMediaViewer.setMediaPlayer(mainMediaPlayer);
                 initaliseProgressSlider();
+                initaliseResizeListener();
 
             } catch(MediaException e) {
                 if( e.getType() == MediaException.Type.MEDIA_UNSUPPORTED ){
@@ -172,6 +177,20 @@ public class MainWindowController {
 
                     }
                 });
+            }
+        });
+    }
+    private void initaliseResizeListener(){
+        //Listen for changes in the scene's width, and change the mediaview accordingly.
+        mainWindow.getScene().widthProperty().addListener(new ChangeListener<Number>() {
+            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+                mainMediaViewer.setFitWidth(mainWindow.getScene().getWidth());
+            }
+        });
+        //Listen for changes in the scene's height, and change the mediaview accordingly.
+        mainWindow.getScene().heightProperty().addListener(new ChangeListener<Number>() {
+            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+                mainMediaViewer.setFitHeight(mainWindow.getScene().getHeight());
             }
         });
     }
