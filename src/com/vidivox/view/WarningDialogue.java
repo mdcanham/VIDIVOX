@@ -1,4 +1,4 @@
-package com.vidivox;
+package com.vidivox.view;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

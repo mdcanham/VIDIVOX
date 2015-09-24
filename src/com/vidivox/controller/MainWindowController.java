@@ -1,5 +1,8 @@
-package com.vidivox;
+package com.vidivox.controller;
 
+import com.vidivox.Generators.FestivalSpeech;
+import com.vidivox.Generators.VideoController;
+import com.vidivox.view.WarningDialogue;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,11 +23,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 public class MainWindowController {
 

@@ -1,9 +1,9 @@
-package com.vidivox;
+package com.vidivox.Generators;
 
-import java.io.BufferedReader;
+import com.vidivox.view.WarningDialogue;
+
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 /**
  * Created by matthewcanham on 24/09/15.

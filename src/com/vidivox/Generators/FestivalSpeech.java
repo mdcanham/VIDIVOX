@@ -1,10 +1,9 @@
-package com.vidivox;
+package com.vidivox.Generators;
+
+import com.vidivox.view.WarningDialogue;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 
