@@ -72,9 +72,9 @@ public class FestivalSpeech {
 			pb.start().waitFor();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			WarningDialogue.genericError(e.getMessage());
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			WarningDialogue.genericError(e.getMessage());
 		}
 
 
@@ -89,7 +89,7 @@ public class FestivalSpeech {
 		try {			
 			p = pb.start();
 		} catch (Exception e){
-			e.printStackTrace();
+			WarningDialogue.genericError(e.getMessage());
 		}
 		
 	}
@@ -141,15 +141,15 @@ public class FestivalSpeech {
 				}
 				
 			} catch (NoSuchFieldException e) {
-				e.printStackTrace();
+				WarningDialogue.genericError(e.getMessage());
 			} catch (SecurityException e) {
-				e.printStackTrace();
+				WarningDialogue.genericError(e.getMessage());
 			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
+				WarningDialogue.genericError(e.getMessage());
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				WarningDialogue.genericError(e.getMessage());
 			} catch (IOException e) {
-				e.printStackTrace();
+				WarningDialogue.genericError(e.getMessage());
 			}
 		}
 		return -1;

@@ -39,9 +39,9 @@ public class VideoController {
 
 
         } catch (IOException e){
-            e.printStackTrace();
+            WarningDialogue.genericError(e.getMessage());
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            WarningDialogue.genericError(e.getMessage());
         }
     }
 }

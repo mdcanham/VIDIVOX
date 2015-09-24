@@ -43,4 +43,10 @@ public class WarningDialogue{
         warningStage.setScene(scene);
         warningStage.showAndWait();
     }
+
+    public static void genericError(String exceptionMessage){
+        String message = "Whoops, something has gone wrong.\n";
+        message += exceptionMessage;
+        new WarningDialogue(message);
+    }
 }
