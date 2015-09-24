@@ -43,7 +43,7 @@
                 <TextArea fx:id="mainSpeechTextArea" prefHeight="400.0" prefWidth="125.0" promptText="Enter up to 20 words to add to the video..." wrapText="true" />
                 <Button layoutX="18.0" layoutY="9.0" mnemonicParsing="false" onAction="#handleSpeechPreviewButton" prefHeight="25.0" prefWidth="125.0" text="Preview" />
                 <Button layoutX="18.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleSaveAudioButton" prefHeight="25.0" prefWidth="125.0" text="Save Audio to File..." />
-                <Button layoutX="18.0" layoutY="70.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Add to Video..." />
+                <Button layoutX="18.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleAddToVideoButton" prefHeight="25.0" prefWidth="125.0" text="Add to Video..." />
                 <Button layoutX="18.0" layoutY="105.0" mnemonicParsing="false" onAction="#handleCloseButton" prefHeight="25.0" prefWidth="125.0" text="Close" />
             </items>
         </ToolBar>

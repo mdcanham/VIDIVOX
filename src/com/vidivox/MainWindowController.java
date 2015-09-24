@@ -20,10 +20,15 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class MainWindowController {
+
+    private File currentVideoLocation;
 
     @FXML
     private MediaView mainMediaViewer = new MediaView();
@@ -54,6 +59,10 @@ public class MainWindowController {
     private void handleOpenVideoButton(){
         final FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(new Stage());
+        openNewVideo(file);
+    }
+
+    private void openNewVideo(File file){
         if (file != null) {
             try {
 
@@ -62,6 +71,7 @@ public class MainWindowController {
                     mainMediaPlayer.dispose();
                 }
 
+                currentVideoLocation = file;
                 mainMediaPlayer = new MediaPlayer(new Media(file.toURI().toString()));
                 mainMediaViewer.setMediaPlayer(mainMediaPlayer);
                 initaliseResizeListener();
@@ -69,7 +79,7 @@ public class MainWindowController {
 
             } catch(MediaException e) {
                 if( e.getType() == MediaException.Type.MEDIA_UNSUPPORTED ){
-                    System.out.println("Sorry, we didn't recognise that file type. Currently VIDIVOX supports MP4 files.");
+                    new WarningDialogue("Sorry, we didn't recognise that file type. Currently VIDIVOX supports MP4 files.");
                 }
             }
         }
@@ -84,8 +94,7 @@ public class MainWindowController {
                 mainMediaPlayer.play();
             }
         } catch (NullPointerException e){
-            //This is where we tell the user that they need to load in video content before they can play the video
-            System.out.println("You need to open a video file before you can play anything...");
+            new WarningDialogue("You need to open a video file before you can play anything");
         }
     }
 
@@ -111,11 +120,41 @@ public class MainWindowController {
         fileChooser.setTitle("Save speech to mp3 file");
         fileChooser.setInitialFileName("Dialogue.mp3");
         File file = fileChooser.showSaveDialog(new Stage());
-
-        System.out.println("The file: " + file.toString());
-
         FestivalSpeech textToSpeak = new FestivalSpeech(mainSpeechTextArea.getText());
         textToSpeak.exportToMP3(file);
+    }
+
+    @FXML
+    private void handleAddToVideoButton(){
+
+        //Check if there is a video currently loaded
+        if(currentVideoLocation == null){
+            new WarningDialogue("You must open a video from the file menu before you can add speech to it.");
+            return;
+        }
+
+        //Select the location of the new video that will be created.
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save video with speech");
+        fileChooser.setInitialFileName("My_New_Video.mp4");
+        File newVideoFile = fileChooser.showSaveDialog(new Stage());
+
+        //Create new audio file from text in the textbox and export it to mp3.
+        //Save the location where this is saved as a file.
+        File audioFile = new File("temp/tempAudioFile.mp3");
+
+        FestivalSpeech text = new FestivalSpeech(mainSpeechTextArea.getText());
+        text.exportToMP3(audioFile);
+
+        //Create new video controller class with the current video
+        VideoController vc = new VideoController(currentVideoLocation);
+
+        //Call the mergeAudio() method
+        vc.mergeAudio(audioFile, newVideoFile);
+
+        new WarningDialogue("Great, you will now need to open the new file that you saved from the file menu.");
+
+
     }
 
     @FXML
@@ -203,6 +242,7 @@ public class MainWindowController {
             }
         });
     }
+
     private void initaliseResizeListener(){
         //Listen for changes in the scene's width, and change the mediaview accordingly.
         mainWindow.getScene().widthProperty().addListener(new ChangeListener<Number>() {
