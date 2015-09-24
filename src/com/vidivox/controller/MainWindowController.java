@@ -222,10 +222,15 @@ public class MainWindowController {
                 TimerTask updateSliderPosition = new TimerTask() {
                     @Override
                     public void run() {
-                        mainProgressSlider.setValue(mainMediaPlayer.getCurrentTime().toMillis());
+                        try {
+                            mainProgressSlider.setValue(mainMediaPlayer.getCurrentTime().toMillis());
+                        } catch (NullPointerException e){
+                            //This likely means that the window was closed while the video was open.
+                            this.cancel();
+                        }
                     }
                 };
-                Timer durationTimer = new Timer();
+                final Timer durationTimer = new Timer();
                 durationTimer.schedule(updateSliderPosition, 0, 100);
 
                 //Listen for changes made to the progress slider by the user
