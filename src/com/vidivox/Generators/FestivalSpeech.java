@@ -1,9 +1,9 @@
-package com.vidivox;
+package com.vidivox.Generators;
+
+import com.vidivox.view.WarningDialogue;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * 
@@ -54,21 +54,29 @@ public class FestivalSpeech {
 	 * Example argument: new File("Music_Folder/myBeats.mp3");
 	 *
 	 */
-	public void exportToMP3(File file){
+	public void exportToMP3(File file) {
 		try {
+
 			//Make the specified directory if it does not already exist
 			file.getParentFile().mkdirs();
 
+			String fileLink = file.toURI().toURL().getPath();
+			fileLink = fileLink.replace("%20", "\\ ");
+
 			String process = "echo \"" + text + "\" | text2wave -o temp.wav";
-			process += " && lame temp.wav " + file.getCanonicalPath();;
+			process += " && ffmpeg -i temp.wav -f mp3 -y " + fileLink;
 			process += " && rm temp.wav";
 
 			ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", process);
-			pb.start();
+			pb.start().waitFor();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			WarningDialogue.genericError(e.getMessage());
+		} catch (InterruptedException e) {
+			WarningDialogue.genericError(e.getMessage());
 		}
+
+
 	}
 	
 	/**
@@ -80,7 +88,7 @@ public class FestivalSpeech {
 		try {			
 			p = pb.start();
 		} catch (Exception e){
-			e.printStackTrace();
+			WarningDialogue.genericError(e.getMessage());
 		}
 		
 	}
@@ -132,15 +140,15 @@ public class FestivalSpeech {
 				}
 				
 			} catch (NoSuchFieldException e) {
-				e.printStackTrace();
+				WarningDialogue.genericError(e.getMessage());
 			} catch (SecurityException e) {
-				e.printStackTrace();
+				WarningDialogue.genericError(e.getMessage());
 			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
+				WarningDialogue.genericError(e.getMessage());
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				WarningDialogue.genericError(e.getMessage());
 			} catch (IOException e) {
-				e.printStackTrace();
+				WarningDialogue.genericError(e.getMessage());
 			}
 		}
 		return -1;
