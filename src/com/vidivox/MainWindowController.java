@@ -216,6 +216,9 @@ public class MainWindowController {
         });
     }
     private void initaliseResizeListener(){
+        //Sets MediaViewer to the size of the window on launch.
+        mainMediaViewer.setFitWidth(mainWindow.getScene().getWidth());
+        mainMediaViewer.setFitHeight(mainWindow.getScene().getHeight());
         //Listen for changes in the scene's width, and change the mediaview accordingly.
         mainWindow.getScene().widthProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
