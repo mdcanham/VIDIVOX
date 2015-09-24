@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
@@ -20,6 +21,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -144,6 +147,7 @@ public class MainWindowController {
 
     @FXML
     private void handleAddSpeechButton() {
+        initaliseTextListener();
         if (speechOptionBar.isVisible()){
             return;
         }
@@ -209,7 +213,7 @@ public class MainWindowController {
                 mainVolumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
-                        mainMediaPlayer.setVolume((double)newValue);
+                        mainMediaPlayer.setVolume((double) newValue);
                     }
                 });
             }
@@ -230,6 +234,18 @@ public class MainWindowController {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
                 mainMediaViewer.setFitHeight(mainWindow.getScene().getHeight());
+            }
+        });
+    }
+    private void initaliseTextListener() {
+        mainSpeechTextArea.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                //If more than 20 words have been entered, don't allow further text entry.
+                String[] words = newValue.split(" ");
+                if (Array.getLength(words)>20){
+                    mainSpeechTextArea.setText(oldValue);
+                }
             }
         });
     }
