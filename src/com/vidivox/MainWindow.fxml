@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.media.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="mainWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vidivox.MainWindowController">
+<BorderPane fx:id="mainWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#handleMouseMoved" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vidivox.MainWindowController">
    <children>
       <MediaView fitHeight="400.0" fitWidth="600.0" BorderPane.alignment="CENTER" />
       <MenuBar layoutY="187.0" translateY="-189.0">
@@ -35,10 +36,10 @@
       </ToolBar>
    </children>
     <center>
-        <MediaView fx:id="mainMediaViewer" fitHeight="600.0" fitWidth="1280.0" onMouseMoved="#handleMouseMoved" preserveRatio="true" />
+        <MediaView fx:id="mainMediaViewer" fitHeight="600.0" fitWidth="1280.0" preserveRatio="true" />
     </center>
     <right>
-        <ToolBar fx:id="speechOptionBar" opacity="0.0" orientation="VERTICAL" prefHeight="120.0" prefWidth="125.0" visible="false">
+        <ToolBar fx:id="speechOptionBar" orientation="VERTICAL" prefHeight="120.0" prefWidth="125.0" visible="false">
             <items>
                 <TextArea fx:id="mainSpeechTextArea" prefHeight="400.0" prefWidth="125.0" promptText="Enter up to 20 words to add to the video..." wrapText="true" />
                 <Button layoutX="18.0" layoutY="9.0" mnemonicParsing="false" onAction="#handleSpeechPreviewButton" prefHeight="25.0" prefWidth="125.0" text="Preview" />
@@ -54,11 +55,14 @@
    <bottom>
        <VBox>
            <children>
-       <Slider fx:id="mainProgressSlider" opacity="0.0" prefHeight="12.0" prefWidth="500.0" />
-            <ToolBar fx:id="videoOptionBar" opacity="0.0" prefHeight="30.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+       <Slider fx:id="mainProgressSlider" prefHeight="12.0" prefWidth="500.0" />
+            <ToolBar fx:id="videoOptionBar" prefHeight="30.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <items>
                 <Button mnemonicParsing="false" onAction="#handleAddSpeechButton" prefHeight="25.0" prefWidth="120.0" text="Add Speech..." />
                   <Button mnemonicParsing="false" onAction="#handlePlayPauseButton" prefHeight="25.0" prefWidth="120.0" text="Play/Pause" />
+                  <ImageView fitHeight="25.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" >
+                      <Image url="@SpeakerIcon.png"/>
+                  </ImageView>
                   <Slider fx:id="mainVolumeSlider" prefHeight="12.0" prefWidth="250.0" />
               </items>
                </ToolBar>
@@ -66,7 +70,7 @@
        </VBox>
    </bottom>
     <top>
-        <MenuBar fx:id="mainMenuBar" opacity="0.0" BorderPane.alignment="CENTER">
+        <MenuBar fx:id="mainMenuBar" BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
