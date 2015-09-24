@@ -4,6 +4,7 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 
@@ -54,21 +55,29 @@ public class FestivalSpeech {
 	 * Example argument: new File("Music_Folder/myBeats.mp3");
 	 *
 	 */
-	public void exportToMP3(File file){
+	public void exportToMP3(File file) {
 		try {
+
 			//Make the specified directory if it does not already exist
 			file.getParentFile().mkdirs();
 
+			String fileLink = file.toURI().toURL().getPath();
+			fileLink = fileLink.replace("%20", "\\ ");
+
 			String process = "echo \"" + text + "\" | text2wave -o temp.wav";
-			process += " && lame temp.wav " + file.getCanonicalPath();;
+			process += " && ffmpeg -i temp.wav -f mp3 -y " + fileLink;
 			process += " && rm temp.wav";
 
 			ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", process);
-			pb.start();
+			pb.start().waitFor();
 
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+
+
 	}
 	
 	/**
