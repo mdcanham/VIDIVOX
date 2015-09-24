@@ -124,20 +124,16 @@ public class MainWindowController {
             FadeTransition menuFT = new FadeTransition(Duration.millis(10000), mainMenuBar);
             FadeTransition videoFT = new FadeTransition(Duration.millis(10000), videoOptionBar);
             FadeTransition sliderFT = new FadeTransition(Duration.millis(10000), mainProgressSlider);
-            FadeTransition speechFT = new FadeTransition(Duration.millis(10000), speechOptionBar);
             if (mainMediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
                 playFadingAnimation(menuFT);
                 playFadingAnimation(videoFT);
                 playFadingAnimation(sliderFT);
-                playFadingAnimation(speechFT);
             } else {
                 menuFT.stop();
                 videoFT.stop();
                 sliderFT.stop();
-                speechFT.stop();
                 mainProgressSlider.setOpacity(1.0);
                 videoOptionBar.setOpacity(1.0);
-                speechOptionBar.setOpacity(1.0);
                 mainMenuBar.setOpacity(1.0);
         }
         }catch(NullPointerException e){
