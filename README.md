@@ -6,6 +6,7 @@ Vidivox is a simple video player that allows the user to add generated speech to
 
 ## How to run
 This java applicaiton was designed to run on Ubuntu 14.04 with JRE 1.8_X installed. The following packages are also assumed to be installed:
+
 1. ffmpeg (latest version)
 2. Festival (2.1 or greater)
 
