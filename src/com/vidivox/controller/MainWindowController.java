@@ -295,4 +295,10 @@ public class MainWindowController {
             }
         });
     }
+
+    @FXML
+    private void handleCloseMenuButton() {
+        Stage stage = (Stage) mainWindow.getScene().getWindow();
+        stage.close();
+    }
 }
