@@ -290,6 +290,7 @@ public class MainWindowController {
                 String[] words = newValue.split(" ");
                 if (Array.getLength(words)>20){
                     mainSpeechTextArea.setText(oldValue);
+                    new WarningDialogue("You can't enter more than 20 words, please enter less.");
                 }
             }
         });

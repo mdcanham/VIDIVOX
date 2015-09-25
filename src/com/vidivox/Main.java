@@ -1,5 +1,6 @@
 package com.vidivox;
 
+import com.vidivox.view.WarningDialogue;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,6 +20,8 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.getScene().fillProperty().setValue(Color.BLACK);
         primaryStage.show();
+
+        new WarningDialogue("Welcome to Vidivox. Open a video by cilcking on the file menu in the top left hand corner.");
     }
 
     public static void main(String[] args) {
