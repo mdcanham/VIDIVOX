@@ -58,7 +58,8 @@
        <Slider fx:id="mainProgressSlider" prefHeight="12.0" prefWidth="500.0" />
             <ToolBar fx:id="videoOptionBar" prefHeight="30.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <items>
-                <Button mnemonicParsing="false" onAction="#handleAddSpeechButton" prefHeight="25.0" prefWidth="120.0" text="Add Speech..." />
+                  <Button mnemonicParsing="false" onAction="#handleOpenVideoButton" prefHeight="25.0" prefWidth="120.0" text="Open video" />
+                  <Button mnemonicParsing="false" onAction="#handleAddSpeechButton" prefHeight="25.0" prefWidth="120.0" text="Add Speech..." />
                   <Button mnemonicParsing="false" onAction="#handlePlayPauseButton" prefHeight="25.0" prefWidth="120.0" text="Play/Pause" />
                   <ImageView fitHeight="25.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" >
                       <Image url="@SpeakerIcon.png"/>
@@ -70,15 +71,6 @@
        </VBox>
    </bottom>
     <top>
-        <MenuBar fx:id="mainMenuBar" BorderPane.alignment="CENTER">
-            <menus>
-                <Menu mnemonicParsing="false" text="File">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#handleOpenVideoButton" text="Open video" />
-                        <MenuItem mnemonicParsing="false" text="Close" onAction="#handleCloseMenuButton" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
+
     </top>
 </BorderPane>
