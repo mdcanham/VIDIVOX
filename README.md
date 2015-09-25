@@ -10,7 +10,8 @@ This java applicaiton was designed to run on Ubuntu 14.04 with JRE 1.8_X install
 1. ffmpeg (latest version)
 2. Festival (2.1 or greater)
 
-To run this on a UG4 lab computer (University of Auckland specific requirement) run the following command in the shell:
+To run this on a UG4 lab computer (University of Auckland specific requirement) navigate to the directory containing the Vidivox jar file and run the following command in the shell:
+
 `/usr/lib/jvm/jre1.8.0_45/bin/java -jar VIDIVOX.jar`
 
 ## Authors
