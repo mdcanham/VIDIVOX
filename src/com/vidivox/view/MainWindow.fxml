@@ -10,15 +10,6 @@
 <BorderPane fx:id="mainWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#handleMouseMoved" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vidivox.controller.MainWindowController">
    <children>
       <MediaView fitHeight="400.0" fitWidth="600.0" BorderPane.alignment="CENTER" />
-      <MenuBar layoutY="187.0" translateY="-189.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
       <ToolBar layoutY="187.0" prefHeight="40.0" prefWidth="200.0" translateY="180.0" BorderPane.alignment="CENTER_RIGHT">
         <items>
           <Button mnemonicParsing="false" text="Add Speech" />
@@ -70,7 +61,4 @@
            </children>
        </VBox>
    </bottom>
-    <top>
-
-    </top>
 </BorderPane>
