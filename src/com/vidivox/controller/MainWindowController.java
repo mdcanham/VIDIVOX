@@ -228,7 +228,7 @@ public class MainWindowController {
                     public void run() {
                         try {
                             mainProgressSlider.setValue(mainMediaPlayer.getCurrentTime().toMillis());
-                        } catch (NullPointerException e){
+                        } catch (NullPointerException e) {
                             //This likely means that the window was closed while the video was open.
                             this.cancel();
                         }
@@ -293,5 +293,11 @@ public class MainWindowController {
                 }
             }
         });
+    }
+
+    @FXML
+    private void handleCloseMenuButton() {
+        Stage stage = (Stage) mainWindow.getScene().getWindow();
+        stage.close();
     }
 }
