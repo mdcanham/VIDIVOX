@@ -14,6 +14,8 @@ To run this on a UG4 lab computer (University of Auckland specific requirement) 
 
 `/usr/lib/jvm/jre1.8.0_45/bin/java -jar VIDIVOX.jar`
 
+Note that currently Vidivox can only play mp4 files, not avi files.
+
 ## Authors
 Jayden Cooke
 
