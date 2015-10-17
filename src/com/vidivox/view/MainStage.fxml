@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vidivox.controller.MainStageController">
+   <bottom>
+      <VBox prefHeight="60.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ToolBar prefHeight="40.0" prefWidth="655.0">
+               <items>
+                  <Button mnemonicParsing="false" onAction="#handlePlayPauseButton" text="Play/Pause" />
+                  <Button mnemonicParsing="false" text="Stop" />
+                  <Separator prefWidth="20.0" />
+                  <Slider fx:id="mainProgressSlider" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="mainTimeLabel" text="00:00:00" />
+                  <Pane maxWidth="1.7976931348623157E308" />
+                  <Separator layoutX="151.0" layoutY="10.0" prefWidth="20.0" />
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assets/SpeakerIconMin.png" />
+                     </image>
+                  </ImageView>
+                  <Slider fx:id="mainVolumeSlider" />
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assets/SpeakerIconFull.png" />
+                     </image>
+                  </ImageView>
+               </items>
+            </ToolBar>
+            <HBox prefHeight="20.0" prefWidth="640.0">
+               <children>
+                  <Label text="Left Activity Info" />
+                  <Pane prefHeight="200.0" prefWidth="5.0" HBox.hgrow="ALWAYS" />
+                  <Label text="Right Activity Info" />
+               </children>
+               <padding>
+                  <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </bottom>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+         <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleOpenVideoButton" text="Open…" />
+                  <Menu mnemonicParsing="false" text="Open Recent" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" text="Save As…" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Quit" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About Vidivox" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <MediaView fx:id="mainMediaViewer" fitHeight="300.0" fitWidth="600.0" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS" />
+   </center>
+   <right>
+      <VBox prefHeight="509.0" prefWidth="192.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#handleTextToSpeechButton" text="Text to Speech" textAlignment="CENTER" />
+         </children>
+      </VBox>
+   </right>
+</BorderPane>

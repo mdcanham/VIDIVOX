@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vidivox.controller.Text2SpeechDialogueController">
+   <bottom>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#handleSpeechPreviewButton" text="Preview" />
+            <Button mnemonicParsing="false" onAction="#handleSaveAudioToFileButton" text="Save to file" />
+            <Button mnemonicParsing="false" text="Add to project" />
+         </children>
+      </HBox>
+   </bottom>
+   <right>
+      <VBox prefHeight="300.0" prefWidth="169.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Select voice" />
+            <RadioButton mnemonicParsing="false" text="Default" />
+            <RadioButton mnemonicParsing="false" text="Lisa" />
+            <RadioButton mnemonicParsing="false" text="Mike" />
+            <RadioButton mnemonicParsing="false" text="John" />
+            <Separator prefWidth="200.0" />
+            <Label text="Select speed" />
+            <ChoiceBox prefWidth="150.0" />
+            <Separator prefWidth="200.0" />
+            <Label text="Select pitch" />
+            <ChoiceBox prefWidth="150.0" />
+         </children>
+      </VBox>
+   </right>
+   <center>
+      <TextArea fx:id="speechTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Enter text here..." BorderPane.alignment="CENTER" />
+   </center>
+   <top>
+      <Label text="Text to speech dialogue" BorderPane.alignment="CENTER" />
+   </top>
+</BorderPane>
