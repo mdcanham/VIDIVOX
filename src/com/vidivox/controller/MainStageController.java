@@ -1,14 +1,14 @@
 package com.vidivox.controller;
 
 import com.vidivox.Generators.AudioDictation;
-import com.vidivox.Generators.VideoController;
 import com.vidivox.Main;
+import com.vidivox.taskThreads.RenderVideoTask;
 import com.vidivox.view.WarningDialogue;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +22,6 @@ import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
@@ -101,10 +100,16 @@ public class MainStageController {
     private void handleApplyChangesButton(){
         audioList.getSelectionModel().getSelectedItem().inTime = Integer.parseInt(inTimeTextField.getText());
         File videoTempLocation = new File("/tmp/temporaryRender.mp4");
-        VideoController vc = new VideoController(videoTempLocation, removeOriginalAudioCheckbox.isSelected(), audioItems);
-        vc.renderVideo();
+        RenderVideoTask vc = new RenderVideoTask(currentVideoLocation, videoTempLocation, removeOriginalAudioCheckbox.isSelected(), audioItems);
+        vc.restart();
 
-        openNewVideo(videoTempLocation);
+        vc.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent event) {
+                openNewVideo(new File("/tmp/temporaryRender.mp4"));
+            }
+        });
+
     }
 
     @FXML

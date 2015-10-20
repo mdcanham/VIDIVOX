@@ -1,20 +1,13 @@
 package com.vidivox.controller;
 
 import com.vidivox.Generators.FestivalSpeech;
-import com.vidivox.Generators.VideoController;
 import com.vidivox.Main;
-import com.vidivox.view.WarningDialogue;
-import javafx.animation.FadeTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.File;
-import java.lang.reflect.Array;
 
 public class Text2SpeechDialogueController {
 
