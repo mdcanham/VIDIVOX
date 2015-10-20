@@ -1,8 +1,14 @@
 package com.vidivox.controller;
 
+import com.vidivox.Generators.AudioDictation;
+import com.vidivox.Main;
 import com.vidivox.view.WarningDialogue;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,6 +21,8 @@ import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -22,7 +30,9 @@ import java.io.IOException;
 
 public class MainStageController {
 
-    private File currentVideoLocation;
+    public static File currentVideoLocation;
+
+    public static ObservableList<AudioDictation> audioItems = FXCollections.observableArrayList();
 
     @FXML
     public MediaView mainMediaViewer = new MediaView();
@@ -47,8 +57,52 @@ public class MainStageController {
     private Label mainTimeLabel;
 
     @FXML
+    private ListView<AudioDictation> audioList = new ListView<>();
+
+    @FXML
+    private TextField inTimeTextField = new TextField();
+
+    @FXML
+    private void handleQuitButton(){
+        Main.stage.close();
+    }
+
+    private void initaliseAudioList(){
+        audioList.setCellFactory(new Callback<ListView<AudioDictation>, ListCell<AudioDictation>>() {
+            @Override
+            public ListCell<AudioDictation> call(ListView<AudioDictation> param) {
+                ListCell<AudioDictation> audio = new ListCell<AudioDictation>() {
+
+                    @Override
+                    protected void updateItem(AudioDictation item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            setText(item.name);
+                        }
+                    }
+                };
+                return audio;
+            }
+        });
+
+        audioList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<AudioDictation>() {
+            @Override
+            public void changed(ObservableValue<? extends AudioDictation> observable, AudioDictation oldValue, AudioDictation newValue) {
+                inTimeTextField.setText(String.valueOf(newValue.inTime));
+            }
+        });
+    }
+
+    @FXML
+    private void handleApplyChangesButton(){
+        audioList.getSelectionModel().getSelectedItem().inTime = Integer.parseInt(inTimeTextField.getText());
+    }
+
+    @FXML
     private void handleOpenVideoButton(){
         final FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Video Files", "*.mp4");
+        fileChooser.getExtensionFilters().add(extensionFilter);
         File file = fileChooser.showOpenDialog(new Stage());
         openNewVideo(file);
     }
@@ -75,6 +129,24 @@ public class MainStageController {
         }
     }
 
+    public void addAudioFile(File file){
+        if(file != null){
+            AudioDictation audio = new AudioDictation(file);
+            audioItems.add(audio);
+            audioList.setItems(audioItems);
+        }
+    }
+
+    @FXML
+    private void handleImportVideoFromFileButton(){
+        initaliseAudioList();
+        final FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Audio Files", "*.mp3", "*.wav");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        File file = fileChooser.showOpenDialog(new Stage());
+        addAudioFile(file);
+    }
+
     @FXML
     private void handlePlayPauseButton(){
         try {
@@ -84,12 +156,29 @@ public class MainStageController {
                 mainMediaPlayer.play();
             }
         } catch (NullPointerException e){
-            new WarningDialogue("You need to open a video file before you can play anything");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("No video open");
+            alert.setContentText("You need to have opened a video before you can play it. Please go to the file menu and click on the open video option.");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleStopButton(){
+        try {
+            mainMediaPlayer.stop();
+
+        } catch (NullPointerException e){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("No video open");
+            alert.setContentText("You need to have opened a video before you can stop it. Please go to the file menu and click on the open video option.");
+            alert.showAndWait();
         }
     }
 
     @FXML
     private void handleTextToSpeechButton(){
+        initaliseAudioList();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vidivox/view/Text2SpeechDialogue.fxml"));
 
@@ -106,6 +195,12 @@ public class MainStageController {
         } catch (IllegalStateException e){
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void handleSetAsCurrentTimeButton(){
+        long currentTime = Math.round(mainMediaPlayer.getCurrentTime().toMillis());
+        inTimeTextField.setText(String.valueOf(currentTime));
     }
 
     private void initalisePlayEnvironment(){

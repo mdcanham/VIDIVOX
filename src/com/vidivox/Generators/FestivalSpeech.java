@@ -31,6 +31,13 @@ public class FestivalSpeech {
 	public void speak() {
 		sayText();
 	}
+
+	public boolean isSpeaking(){
+		if(p != null && p.isAlive()){
+			return true;
+		}
+		return false;
+	}
 	
 	/**
 	 * Stop the speaking voice at any point

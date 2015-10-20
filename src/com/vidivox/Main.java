@@ -16,6 +16,9 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
+    public static Stage stage;
+    public static MainStageController mainController;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("view/MainStage.fxml"));
@@ -25,8 +28,11 @@ public class Main extends Application {
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(800);
         MainStageController controller = (MainStageController) loader.getController();
+        mainController = controller;
 
         bindMediaViewerSize(controller, scene);
+
+        stage = primaryStage;
 
         primaryStage.setTitle("VIDIVOX");
         primaryStage.show();

@@ -11,9 +11,9 @@
    <bottom>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#handleSpeechPreviewButton" text="Preview" />
-            <Button mnemonicParsing="false" onAction="#handleSaveAudioToFileButton" text="Save to file" />
-            <Button mnemonicParsing="false" text="Add to project" />
+            <Button fx:id="previewButton" mnemonicParsing="false" onAction="#handleSpeechPreviewButton" text="Preview" />
+            <Button fx:id="cancelPreviewButton" mnemonicParsing="false" onAction="#handleCancelPreviewButton" text="Cancel Preview" />
+            <Button mnemonicParsing="false" onAction="#handleSaveAndAddToProjectButton" text="Save and add to project" />
          </children>
       </HBox>
    </bottom>
@@ -35,7 +35,7 @@
       </VBox>
    </right>
    <center>
-      <TextArea fx:id="speechTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Enter text here..." BorderPane.alignment="CENTER" />
+      <TextArea fx:id="speechTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Enter text here..." wrapText="true" BorderPane.alignment="CENTER" />
    </center>
    <top>
       <Label text="Text to speech dialogue" BorderPane.alignment="CENTER" />

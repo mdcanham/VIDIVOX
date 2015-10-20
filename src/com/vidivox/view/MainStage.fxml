@@ -10,14 +10,16 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vidivox.controller.MainStageController">
+<BorderPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vidivox.controller.MainStageController">
    <bottom>
       <VBox prefHeight="60.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <ToolBar prefHeight="40.0" prefWidth="655.0">
                <items>
+                  <Button mnemonicParsing="false" onAction="#handleOpenVideoButton" text="Import Video Track" />
+                  <Separator orientation="VERTICAL" prefHeight="10.0" />
                   <Button mnemonicParsing="false" onAction="#handlePlayPauseButton" text="Play/Pause" />
-                  <Button mnemonicParsing="false" text="Stop" />
+                  <Button mnemonicParsing="false" onAction="#handleStopButton" text="Stop" />
                   <Separator prefWidth="20.0" />
                   <Slider fx:id="mainProgressSlider" HBox.hgrow="ALWAYS" />
                   <Label fx:id="mainTimeLabel" text="00:00:00" />
@@ -54,14 +56,11 @@
          <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" text="New" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleOpenVideoButton" text="Open…" />
-                  <Menu mnemonicParsing="false" text="Open Recent" />
+                  <MenuItem mnemonicParsing="false" text="Open Project…" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Save As…" />
+                  <MenuItem mnemonicParsing="false" text="Save Project As…" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Quit" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleQuitButton" text="Quit" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
@@ -76,9 +75,26 @@
       <MediaView fx:id="mainMediaViewer" fitHeight="300.0" fitWidth="600.0" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS" />
    </center>
    <right>
-      <VBox prefHeight="509.0" prefWidth="192.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="709.0" prefWidth="270.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#handleTextToSpeechButton" text="Text to Speech" textAlignment="CENTER" />
+            <Label text="Import or create media" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleTextToSpeechButton" text="Create Text to Speech" textAlignment="CENTER" />
+            <Button mnemonicParsing="false" onAction="#handleImportVideoFromFileButton" text="Import audio from file" />
+            <Separator prefWidth="200.0" />
+            <Label text="Imported audio" />
+            <ListView fx:id="audioList" prefHeight="200.0" prefWidth="200.0" />
+            <Label text="In time (milliseconds)" />
+            <TextField fx:id="inTimeTextField" />
+            <HBox>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleSetAsCurrentTimeButton" text="Set as current time" />
+                  <CheckBox mnemonicParsing="false" text="Remove original audio" />
+               </children>
+            </HBox>
+            <Button mnemonicParsing="false" onAction="#handleApplyChangesButton" text="Apply changes" />
+            <Separator prefWidth="200.0" />
+            <Label text="Export" />
+            <Button mnemonicParsing="false" text="Export as mp4" />
          </children>
       </VBox>
    </right>

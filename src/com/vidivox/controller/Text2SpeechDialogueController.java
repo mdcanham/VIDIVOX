@@ -2,6 +2,7 @@ package com.vidivox.controller;
 
 import com.vidivox.Generators.FestivalSpeech;
 import com.vidivox.Generators.VideoController;
+import com.vidivox.Main;
 import com.vidivox.view.WarningDialogue;
 import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
@@ -15,21 +16,41 @@ import javafx.util.Duration;
 import java.io.File;
 import java.lang.reflect.Array;
 
-/**
- * Created by matthewcanham on 17/10/15.
- */
 public class Text2SpeechDialogueController {
+
+    private FestivalSpeech currentFestivalPreview = new FestivalSpeech("");
 
     @FXML
     private TextArea speechTextArea;
 
     @FXML
+    private Button previewButton = new Button();
+
+    @FXML
+    private Button cancelPreviewButton = new Button();
+
+    @FXML
     private void handleSpeechPreviewButton(){
+        if(currentFestivalPreview.isSpeaking()){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Preview currently in progress.");
+            alert.setContentText("Only one preview can be running at a time. Cancel the current preview to start again.");
+            alert.showAndWait();
+            return;
+        }
+
         String textToSay = speechTextArea.getText();
 
         FestivalSpeech festival = new FestivalSpeech(textToSay);
 
         festival.speak();
+
+        currentFestivalPreview = festival;
+    }
+
+    @FXML
+    private void handleCancelPreviewButton(){
+        currentFestivalPreview.stopSpeak();
     }
 
     @FXML
@@ -46,37 +67,29 @@ public class Text2SpeechDialogueController {
         }
     }
 
-//    @FXML
-//    private void handleAddToProjectButton(){
-//
-//        //Check if there is a video currently loaded
-//        if(currentVideoLocation == null){
-//            new WarningDialogue("You must open a video from the file menu before you can add speech to it.");
-//            return;
-//        }
-//
-//        //Select the location of the new video that will be created.
-//        final FileChooser fileChooser = new FileChooser();
-//        fileChooser.setTitle("Save video with speech");
-//        fileChooser.setInitialFileName("My_New_Video.mp4");
-//        File newVideoFile = fileChooser.showSaveDialog(new Stage());
-//
-//        //Create new audio file from text in the textbox and export it to mp3.
-//        //Save the location where this is saved as a file.
-//        File audioFile = new File("temp/tempAudioFile.mp3");
-//
-//        FestivalSpeech text = new FestivalSpeech(speechTextArea.getText());
-//        text.exportToMP3(audioFile);
-//
-//        //Create new video controller class with the current video
-//        VideoController vc = new VideoController(currentVideoLocation);
-//
-//        //Call the mergeAudio() method
-//        vc.mergeAudio(audioFile, newVideoFile);
-//
-//        new WarningDialogue("Great, you will now need to open the new file that you saved from the file menu.");
-//
-//
-//    }
+    @FXML
+    private void handleSaveAndAddToProjectButton(){
+
+
+        //Select the location of the new audio file that will be created.
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save speech to mp3 file");
+        fileChooser.setInitialFileName("Dialogue.mp3");
+
+        File defaultLocation = new File("./audioFiles");
+        defaultLocation.mkdirs();
+        fileChooser.setInitialDirectory(defaultLocation);
+
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Audio Files", "*.mp3", "*.wav");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        File newAudioFile = fileChooser.showSaveDialog(new Stage());
+
+        FestivalSpeech text = new FestivalSpeech(speechTextArea.getText());
+        text.exportToMP3(newAudioFile);
+
+        Main.mainController.addAudioFile(newAudioFile);
+
+
+    }
 
 }
