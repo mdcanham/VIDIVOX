@@ -1,6 +1,7 @@
 package com.vidivox.controller;
 
 import com.vidivox.Generators.AudioDictation;
+import com.vidivox.Generators.VideoController;
 import com.vidivox.Main;
 import com.vidivox.view.WarningDialogue;
 import javafx.beans.value.ChangeListener;
@@ -60,6 +61,9 @@ public class MainStageController {
     private ListView<AudioDictation> audioList = new ListView<>();
 
     @FXML
+    private CheckBox removeOriginalAudioCheckbox;
+
+    @FXML
     private TextField inTimeTextField = new TextField();
 
     @FXML
@@ -96,6 +100,11 @@ public class MainStageController {
     @FXML
     private void handleApplyChangesButton(){
         audioList.getSelectionModel().getSelectedItem().inTime = Integer.parseInt(inTimeTextField.getText());
+        File videoTempLocation = new File("/tmp/temporaryRender.mp4");
+        VideoController vc = new VideoController(videoTempLocation, removeOriginalAudioCheckbox.isSelected(), audioItems);
+        vc.renderVideo();
+
+        openNewVideo(videoTempLocation);
     }
 
     @FXML
