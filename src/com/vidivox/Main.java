@@ -36,6 +36,7 @@ public class Main extends Application {
 
         primaryStage.setTitle("VIDIVOX");
         primaryStage.show();
+
     }
 
     private void bindMediaViewerSize(MainStageController controller, Scene scene){

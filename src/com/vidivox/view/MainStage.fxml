@@ -19,7 +19,7 @@
                   <Button mnemonicParsing="false" onAction="#handleOpenVideoButton" text="Import Video Track" />
                   <Separator orientation="VERTICAL" prefHeight="10.0" />
                   <Button fx:id="playPauseButton" mnemonicParsing="false" onAction="#handlePlayPauseButton" text="Play" />
-                  <Button mnemonicParsing="false" onAction="#handleStopButton" text="Stop" />
+                  <Button fx:id="stopButton" mnemonicParsing="false" onAction="#handleStopButton" text="Stop" />
                   <Separator prefWidth="20.0" />
                   <Slider fx:id="mainProgressSlider" HBox.hgrow="ALWAYS" />
                   <Label fx:id="mainTimeLabel" text="00:00:00" />

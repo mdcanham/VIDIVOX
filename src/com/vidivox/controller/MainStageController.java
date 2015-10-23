@@ -8,6 +8,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,6 +24,7 @@ import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
@@ -37,6 +40,12 @@ public class MainStageController {
     @FXML
     public MediaView mainMediaViewer = new MediaView();
     private MediaPlayer mainMediaPlayer;
+
+    @FXML
+    private Button playPauseButton = new Button();
+
+    @FXML
+    private Button stopButton = new Button();
 
     @FXML
     private ToolBar videoOptionBar = new ToolBar();
@@ -77,9 +86,10 @@ public class MainStageController {
     @FXML
     private ProgressBar leftProgressBar = new ProgressBar();
 
-    @FXML
-    private void handleQuitButton(){
-        Main.stage.close();
+    private void initaliseController(){
+        initaliseAudioList();
+        initaliseButtons();
+
     }
 
     private void initaliseAudioList(){
@@ -108,6 +118,18 @@ public class MainStageController {
         });
     }
 
+    private void initaliseButtons(){
+        applyChangesButton.setDisable(true);
+        playPauseButton.setDisable(true);
+        stopButton.setDisable(true);
+
+    }
+
+    @FXML
+    private void handleQuitButton(){
+        Main.stage.close();
+    }
+
     @FXML
     private void handleApplyChangesButton(){
         audioList.getSelectionModel().getSelectedItem().inTime = Integer.parseInt(inTimeTextField.getText());
@@ -127,7 +149,6 @@ public class MainStageController {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 leftProgressBar.setProgress((double) newValue);
-                System.out.println((double)newValue * 100);
             }
         });
 
@@ -148,9 +169,6 @@ public class MainStageController {
                 rightActivityInfo.setText("");
                 leftProgressBar.setVisible(false);
                 applyChangesButton.setDisable(false);
-
-
-
 
 
             }
@@ -196,6 +214,10 @@ public class MainStageController {
             AudioDictation audio = new AudioDictation(file);
             audioItems.add(audio);
             audioList.setItems(audioItems);
+            audioList.getSelectionModel().select(audio);
+            if(!leftProgressBar.visibleProperty().get()){
+                applyChangesButton.setDisable(false);
+            }
         }
     }
 
@@ -274,6 +296,9 @@ public class MainStageController {
                 mainProgressSlider.setMin(0);
                 mainProgressSlider.setMax(mainMediaPlayer.getTotalDuration().toMillis());
 
+                playPauseButton.setDisable(false);
+                stopButton.setDisable(false);
+
                 //Add a listener to check the value of the slider and update the media element accordingly
                 mainProgressSlider.valueProperty().addListener(new ChangeListener<Number>() {
                     @Override
@@ -316,5 +341,36 @@ public class MainStageController {
                 });
             }
         });
+    }
+
+    /**
+     * Constructor for the controller class.
+     * Waits for the main stage to be ready and then calls the initaliseController() method.
+     */
+    public MainStageController(){
+        Service<Void> s = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        while(Main.stage == null){
+                            Thread.sleep(100);
+                        }
+                        this.succeeded();
+                        return null;
+                    }
+                };
+            }
+        };
+
+        s.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent event) {
+                initaliseController();
+            }
+        });
+
+        s.restart();
     }
 }
