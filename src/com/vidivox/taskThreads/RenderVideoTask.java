@@ -1,6 +1,6 @@
 package com.vidivox.taskThreads;
 
-import com.vidivox.Generators.AudioDictation;
+import com.vidivox.generators.AudioDictation;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;

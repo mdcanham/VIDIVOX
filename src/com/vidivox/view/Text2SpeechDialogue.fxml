@@ -18,19 +18,45 @@
       </HBox>
    </bottom>
    <right>
-      <VBox prefHeight="300.0" prefWidth="169.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="283.0" prefWidth="219.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Select voice" />
-            <RadioButton mnemonicParsing="false" text="Default" />
-            <RadioButton mnemonicParsing="false" text="Lisa" />
-            <RadioButton mnemonicParsing="false" text="Mike" />
-            <RadioButton mnemonicParsing="false" text="John" />
-            <Separator prefWidth="200.0" />
-            <Label text="Select speed" />
-            <ChoiceBox prefWidth="150.0" />
-            <Separator prefWidth="200.0" />
-            <Label text="Select pitch" />
-            <ChoiceBox prefWidth="150.0" />
+            <RadioButton mnemonicParsing="false" text="Kal">
+               <toggleGroup>
+                  <ToggleGroup fx:id="voiceSelect" />
+               </toggleGroup></RadioButton>
+            <RadioButton mnemonicParsing="false" text="Rab" toggleGroup="$voiceSelect" />
+            <RadioButton mnemonicParsing="false" text="John" toggleGroup="$voiceSelect" />
+            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Basic">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label text="Select preset voice" />
+                              <ChoiceBox fx:id="presetSelector" prefWidth="150.0" />
+                           </children>
+                        </VBox>
+                     </content>
+                </Tab>
+                <Tab text="Advanced">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label fx:id="pitchSelectorLabel" text="Pitch" />
+                              <Slider fx:id="pitchSelector" showTickLabels="true" showTickMarks="true" />
+                              <Separator prefWidth="200.0" />
+                              <Label fx:id="acrossUtteranceSelectorLabel" layoutX="10.0" layoutY="10.0" text="Across utterance range" />
+                              <Slider fx:id="acrossUtteranceSelector" layoutX="10.0" layoutY="27.0" showTickLabels="true" showTickMarks="true" />
+                              <Separator prefWidth="200.0" />
+                              <Label fx:id="speedSelectorLabel" text="Voice speed" />
+                              <Slider fx:id="speedSelector" showTickLabels="true" showTickMarks="true" />
+                           </children>
+                        </VBox>
+                     </content>
+                </Tab>
+              </tabs>
+            </TabPane>
          </children>
       </VBox>
    </right>

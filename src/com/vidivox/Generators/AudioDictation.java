@@ -1,4 +1,4 @@
-package com.vidivox.Generators;
+package com.vidivox.generators;
 
 import java.io.File;
 

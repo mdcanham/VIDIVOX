@@ -1,15 +1,24 @@
 package com.vidivox.controller;
 
-import com.vidivox.Generators.FestivalSpeech;
+import com.vidivox.generators.FestivalSpeech;
 import com.vidivox.Main;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class Text2SpeechDialogueController {
+public class Text2SpeechDialogueController implements Initializable {
 
     private FestivalSpeech currentFestivalPreview = new FestivalSpeech("");
 
@@ -21,6 +30,27 @@ public class Text2SpeechDialogueController {
 
     @FXML
     private Button cancelPreviewButton = new Button();
+
+    @FXML
+    private Slider speedSelector = new Slider();
+
+    @FXML
+    private Label speedSelectorLabel = new Label();
+
+    @FXML
+    private Slider pitchSelector = new Slider();
+
+    @FXML
+    private Label pitchSelectorLabel = new Label();
+
+    @FXML
+    private Slider acrossUtteranceSelector = new Slider();
+
+    @FXML
+    private Label acrossUtteranceSelectorLabel = new Label();
+
+    @FXML
+    private ChoiceBox<String> presetSelector = new ChoiceBox<String>();
 
     @FXML
     private void handleSpeechPreviewButton(){
@@ -85,4 +115,102 @@ public class Text2SpeechDialogueController {
 
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initaliseSpeedSelector();
+        initalisePitchSelector();
+        initaliseAcrossUtteranceSelector();
+        presetSelector.getItems().addAll("Male Happy Voice", "Male Normal Voice", "Male Sad Voice", "Female Happy Voice", "Female Normal Voice", "Female Sad Voice");
+        presetSelector.getSelectionModel().select(1);
+    }
+
+    private void initaliseSpeedSelector(){
+        speedSelector.minProperty().setValue(0.5);
+        speedSelector.maxProperty().setValue(2);
+        speedSelector.majorTickUnitProperty().setValue(0.5);
+        speedSelector.setValue(1);
+
+        speedSelectorLabel.setText("Speed (1.0x)");
+
+        //Double click on the slider to reset it to 1
+        speedSelector.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    if (mouseEvent.getClickCount() == 2) {
+                        speedSelector.setValue(1);
+                    }
+                }
+            }
+        });
+
+        speedSelector.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                String stringValue = String.format("Speed (%.1fx)", newValue);
+                speedSelectorLabel.setText(stringValue);
+            }
+        });
+    }
+
+    private void initalisePitchSelector(){
+        pitchSelector.minProperty().setValue(50);
+        pitchSelector.maxProperty().setValue(300);
+        pitchSelector.majorTickUnitProperty().setValue(50);
+        pitchSelector.setValue(110);
+
+        pitchSelectorLabel.setText("Pitch (110Hz)");
+
+        pitchSelector.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    if (mouseEvent.getClickCount() == 2) {
+                        pitchSelector.setValue(110);
+                    }
+                }
+            }
+        });
+
+        pitchSelector.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                String stringValue = String.format("Pitch (%.0fHz)", newValue);
+                pitchSelectorLabel.setText(stringValue);
+            }
+        });
+    }
+
+    private void initaliseAcrossUtteranceSelector(){
+        acrossUtteranceSelector.minProperty().setValue(0);
+        acrossUtteranceSelector.maxProperty().setValue(80);
+        acrossUtteranceSelector.majorTickUnitProperty().setValue(20);
+        acrossUtteranceSelector.setValue(20);
+
+        acrossUtteranceSelectorLabel.setText("Across utterance range (20Hz)");
+
+        acrossUtteranceSelector.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    if (mouseEvent.getClickCount() == 2) {
+                        acrossUtteranceSelector.setValue(20);
+                    }
+                }
+            }
+        });
+
+        acrossUtteranceSelector.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                String stringValue = String.format("Across utterance range (%.0fHz)", newValue);
+                acrossUtteranceSelectorLabel.setText(stringValue);
+            }
+        });
+
+    }
+
+    private void initaliseFestivalSelectionBoxListeners(){
+
+    }
 }

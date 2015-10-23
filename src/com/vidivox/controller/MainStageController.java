@@ -1,6 +1,6 @@
 package com.vidivox.controller;
 
-import com.vidivox.Generators.AudioDictation;
+import com.vidivox.generators.AudioDictation;
 import com.vidivox.Main;
 import com.vidivox.taskThreads.RenderVideoTask;
 import com.vidivox.view.WarningDialogue;
@@ -8,8 +8,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -26,7 +24,6 @@ import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
