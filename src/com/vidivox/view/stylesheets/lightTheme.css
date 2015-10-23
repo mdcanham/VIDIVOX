@@ -1,9 +1,9 @@
 .slider .thumb {
-    -fx-background-color: #BDBDBD;  /* Hide the track */
+    -fx-background-color: #737373;  /* Hide the track */
 }
 
 .slider .track {
-    -fx-background-color: #E5E5E5;
+    -fx-background-color: #cacaca;
     -fx-background-insets: 0, 1, 2;
     -fx-background-radius: 1.0em; /* makes sure this remains circular */
     -fx-padding: 7px;
@@ -18,9 +18,36 @@
     -fx-background-size: contain;
 }
 
-#playPauseButton {
+#playPauseButton.play {
+    -fx-background-image: url("../assets/Play.png");
+}
 
+#playPauseButton:hover.play {
+    -fx-background-image: url("../assets/PlayHover.png");
+}
 
+#playPauseButton.pause {
+    -fx-background-image: url("../assets/Pause.png");
+}
+
+#playPauseButton:hover.pause {
+    -fx-background-image: url("../assets/PauseHover.png");
+}
+
+#stopButton {
+    -fx-background-image: url("../assets/Stop.png");
+}
+
+#stopButton:hover {
+    -fx-background-image: url("../assets/StopHover.png");
+}
+
+#importButton {
+    -fx-background-image: url("../assets/Import.png");
+}
+
+#importButton:hover {
+    -fx-background-image: url("../assets/ImportHover.png");
 }
 
 #mediaSettings {
@@ -29,4 +56,15 @@
 
 #mediaSettings .button{
     -fx-label-padding: 2px;
+}
+
+#mediaContainer.init {
+    -fx-background-image: url("../assets/background_info.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: bottom left;
+    -fx-background-size: 380px;
+}
+
+#mainMediaViewer {
+
 }

@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
 import javafx.scene.media.MediaPlayer;
@@ -89,11 +90,15 @@ public class MainStageController implements Initializable {
     @FXML
     private ProgressBar leftProgressBar = new ProgressBar();
 
+    @FXML
+    private Pane mediaContainer = new Pane();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initaliseAudioList();
         initaliseButtons();
-
+        mainMediaViewer.fitWidthProperty().bind(mediaContainer.widthProperty());
+        mainMediaViewer.fitHeightProperty().bind(mediaContainer.heightProperty());
     }
 
     private void initaliseAudioList(){
@@ -125,8 +130,8 @@ public class MainStageController implements Initializable {
     private void initaliseButtons(){
         applyChangesButton.setDisable(true);
         playPauseButton.setDisable(true);
+        playPauseButton.getStyleClass().add("play");
         stopButton.setDisable(true);
-
     }
 
     @FXML
@@ -189,6 +194,9 @@ public class MainStageController implements Initializable {
         fileChooser.getExtensionFilters().add(extensionFilter);
         File file = fileChooser.showOpenDialog(new Stage());
         openNewVideo(file);
+
+        //Remove the "Import a media track..." background
+        mediaContainer.getStyleClass().removeAll("init");
     }
 
     private void openNewVideo(File file){
@@ -240,8 +248,12 @@ public class MainStageController implements Initializable {
         try {
             if(mainMediaPlayer.getStatus() == MediaPlayer.Status.PLAYING){
                 mainMediaPlayer.pause();
+                playPauseButton.getStyleClass().removeAll("pause");
+                playPauseButton.getStyleClass().add("play");
             } else {
                 mainMediaPlayer.play();
+                playPauseButton.getStyleClass().removeAll("play");
+                playPauseButton.getStyleClass().add("pause");
             }
         } catch (NullPointerException e){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -255,7 +267,8 @@ public class MainStageController implements Initializable {
     private void handleStopButton(){
         try {
             mainMediaPlayer.stop();
-
+            playPauseButton.getStyleClass().removeAll("pause");
+            playPauseButton.getStyleClass().add("play");
         } catch (NullPointerException e){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("No video open");

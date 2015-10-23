@@ -25,24 +25,16 @@ public class Main extends Application {
         BorderPane pane = loader.load();
         Scene scene = new Scene(pane, 800, 600);
         primaryStage.setScene(scene);
-        primaryStage.setMinHeight(600);
-        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(800);
+        primaryStage.setMinWidth(1000);
         MainStageController controller = (MainStageController) loader.getController();
         mainController = controller;
-
-        bindMediaViewerSize(controller, scene);
 
         stage = primaryStage;
 
         primaryStage.setTitle("VIDIVOX");
         primaryStage.show();
 
-    }
-
-    private void bindMediaViewerSize(MainStageController controller, Scene scene){
-        controller.mainMediaViewer.fitWidthProperty().bind(scene.widthProperty().subtract(300));
-
-        controller.mainMediaViewer.fitHeightProperty().bind(scene.heightProperty().subtract(100));
     }
 
     public static void main(String[] args) {
