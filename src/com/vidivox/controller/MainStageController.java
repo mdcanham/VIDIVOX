@@ -14,6 +14,7 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -30,8 +31,10 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainStageController {
+public class MainStageController implements Initializable {
 
     public static File currentVideoLocation;
 
@@ -86,7 +89,8 @@ public class MainStageController {
     @FXML
     private ProgressBar leftProgressBar = new ProgressBar();
 
-    private void initaliseController(){
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         initaliseAudioList();
         initaliseButtons();
 
@@ -341,36 +345,5 @@ public class MainStageController {
                 });
             }
         });
-    }
-
-    /**
-     * Constructor for the controller class.
-     * Waits for the main stage to be ready and then calls the initaliseController() method.
-     */
-    public MainStageController(){
-        Service<Void> s = new Service<Void>() {
-            @Override
-            protected Task<Void> createTask() {
-                return new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
-                        while(Main.stage == null){
-                            Thread.sleep(100);
-                        }
-                        this.succeeded();
-                        return null;
-                    }
-                };
-            }
-        };
-
-        s.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-            @Override
-            public void handle(WorkerStateEvent event) {
-                initaliseController();
-            }
-        });
-
-        s.restart();
     }
 }
