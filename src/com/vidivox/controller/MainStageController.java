@@ -66,6 +66,18 @@ public class MainStageController {
     private TextField inTimeTextField = new TextField();
 
     @FXML
+    private Button applyChangesButton = new Button();
+
+    @FXML
+    private Label leftActivityInfo = new Label();
+
+    @FXML
+    private Label rightActivityInfo = new Label();
+
+    @FXML
+    private ProgressBar leftProgressBar = new ProgressBar();
+
+    @FXML
     private void handleQuitButton(){
         Main.stage.close();
     }
@@ -100,15 +112,44 @@ public class MainStageController {
     private void handleApplyChangesButton(){
         audioList.getSelectionModel().getSelectedItem().inTime = Integer.parseInt(inTimeTextField.getText());
         File videoTempLocation = new File("/tmp/temporaryRender.mp4");
-        RenderVideoTask vc = new RenderVideoTask(currentVideoLocation, videoTempLocation, removeOriginalAudioCheckbox.isSelected(), audioItems);
-        vc.restart();
+        RenderVideoTask renderVideoTask = new RenderVideoTask(currentVideoLocation, videoTempLocation, removeOriginalAudioCheckbox.isSelected(), audioItems);
 
-        vc.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+        renderVideoTask.setOnScheduled(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent event) {
+                leftActivityInfo.setText("Applying changes to video");
+                leftProgressBar.setVisible(true);
+                applyChangesButton.setDisable(true);
+            }
+        });
+
+        renderVideoTask.progressProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                leftProgressBar.setProgress((double) newValue);
+                System.out.println((double)newValue * 100);
+            }
+        });
+
+        renderVideoTask.messageProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                rightActivityInfo.setText(newValue);
+            }
+        });
+
+        renderVideoTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent event) {
                 openNewVideo(new File("/tmp/temporaryRender.mp4"));
+                leftActivityInfo.setText("Changes applied");
+                rightActivityInfo.setText("");
+                leftProgressBar.setVisible(false);
+                applyChangesButton.setDisable(false);
             }
         });
+
+        renderVideoTask.restart();
 
     }
 

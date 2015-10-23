@@ -77,6 +77,7 @@ public class RenderVideoTask extends Service<Void> {
                 pb = new ProcessBuilder("/bin/sh", "-c", process);
                 pb.start().waitFor();
 
+                updateProgress(100, 100);
                 succeeded();
 
                 return null;
