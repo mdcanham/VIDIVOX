@@ -142,10 +142,17 @@ public class MainStageController {
             @Override
             public void handle(WorkerStateEvent event) {
                 openNewVideo(new File("/tmp/temporaryRender.mp4"));
+                mainMediaPlayer.play();
+
                 leftActivityInfo.setText("Changes applied");
                 rightActivityInfo.setText("");
                 leftProgressBar.setVisible(false);
                 applyChangesButton.setDisable(false);
+
+
+
+
+
             }
         });
 
