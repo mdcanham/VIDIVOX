@@ -10,15 +10,15 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vidivox.controller.MainStageController">
+<BorderPane prefHeight="650.0" prefWidth="1000.0" stylesheets="@stylesheets/lightTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vidivox.controller.MainStageController">
    <bottom>
       <VBox prefHeight="60.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <ToolBar prefHeight="40.0" prefWidth="655.0">
+            <ToolBar id="controllerBar" prefHeight="40.0" prefWidth="655.0">
                <items>
                   <Button mnemonicParsing="false" onAction="#handleOpenVideoButton" text="Import Video Track" />
                   <Separator orientation="VERTICAL" prefHeight="10.0" />
-                  <Button mnemonicParsing="false" onAction="#handlePlayPauseButton" text="Play/Pause" />
+                  <Button fx:id="playPauseButton" mnemonicParsing="false" onAction="#handlePlayPauseButton" text="Play" />
                   <Button mnemonicParsing="false" onAction="#handleStopButton" text="Stop" />
                   <Separator prefWidth="20.0" />
                   <Slider fx:id="mainProgressSlider" HBox.hgrow="ALWAYS" />
@@ -77,24 +77,54 @@
       <MediaView fx:id="mainMediaViewer" fitHeight="300.0" fitWidth="600.0" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS" />
    </center>
    <right>
-      <VBox prefHeight="709.0" prefWidth="270.0" BorderPane.alignment="CENTER">
+      <VBox id="mediaSettings" prefHeight="709.0" prefWidth="270.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Import or create media" />
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleTextToSpeechButton" text="Create Text to Speech" textAlignment="CENTER" />
-            <Button mnemonicParsing="false" onAction="#handleImportVideoFromFileButton" text="Import audio from file" />
-            <Separator prefWidth="200.0" />
-            <Label text="Imported audio" />
+            <Label text="Import or create media">
+               <font>
+                  <Font size="20.0" />
+               </font></Label>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleTextToSpeechButton" text="Create Text to Speech" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Button>
+            <Button mnemonicParsing="false" onAction="#handleImportVideoFromFileButton" text="Import audio from file">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Button>
+            <Separator prefWidth="200.0">
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin></Separator>
+            <Label text="Imported audio">
+               <font>
+                  <Font size="20.0" />
+               </font></Label>
             <ListView fx:id="audioList" prefHeight="200.0" prefWidth="200.0" />
-            <Label text="In time (milliseconds)" />
+            <Label text="In time (milliseconds)">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Label>
             <HBox>
                <children>
-                  <TextField fx:id="inTimeTextField" />
+                  <TextField fx:id="inTimeTextField" maxWidth="100.0">
+                     <HBox.margin>
+                        <Insets right="5.0" top="5.0" />
+                     </HBox.margin></TextField>
+                  <Pane HBox.hgrow="ALWAYS" />
                   <Button mnemonicParsing="false" onAction="#handleSetAsCurrentTimeButton" text="Current Time" />
                </children>
             </HBox>
-            <CheckBox fx:id="removeOriginalAudioCheckbox" mnemonicParsing="false" text="Remove original audio" />
-            <Button fx:id="applyChangesButton" mnemonicParsing="false" onAction="#handleApplyChangesButton" text="Apply changes" />
-            <Separator prefWidth="200.0" />
+            <CheckBox fx:id="removeOriginalAudioCheckbox" mnemonicParsing="false" text="Remove original audio">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></CheckBox>
+            <Button fx:id="applyChangesButton" mnemonicParsing="false" onAction="#handleApplyChangesButton" text="Apply changes">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Button>
          </children>
       </VBox>
    </right>
