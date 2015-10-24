@@ -172,7 +172,6 @@ public class FestivalSpeech {
 	 * Note that this method is private and is called by the FestivalSpeech class internally
 	 */
 	private void executeCurrentSchemeFile() {
-//		ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", "echo \"" + text + "\" | festival --tts");
 		ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", "festival -b tempScheme.scm");
 		try {			
 			p = pb.start();

@@ -113,7 +113,11 @@ public class Text2SpeechDialogueController implements Initializable {
         fileChooser.getExtensionFilters().add(extensionFilter);
         File newAudioFile = fileChooser.showSaveDialog(new Stage());
 
-        FestivalSpeech text = new FestivalSpeech(speechTextArea.getText());
+        String textToSay = speechTextArea.getText();
+        RadioButton rb = (RadioButton)voiceSelectGroup.getSelectedToggle();
+
+
+        FestivalSpeech text = new FestivalSpeech(textToSay, FestivalSpeech.getVoiceFromName(rb.getText()), pitchSelector.getValue(), acrossUtteranceSelector.getValue(), speedSelector.getValue());
         text.exportToMP3(newAudioFile);
 
         Main.mainController.addAudioFile(newAudioFile);
