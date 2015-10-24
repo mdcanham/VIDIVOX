@@ -62,8 +62,37 @@ public class FestivalSpeech {
 	 * Begin speaking the text that was entered when creating this object
 	 */
 	public void speak() {
-		createSchemeFile();
-		sayText();
+		try {
+			File file = new File("tempScheme.scm");
+
+			PrintWriter writer = new PrintWriter("tempScheme.scm", "UTF-8");
+
+			switch (this.voice){
+				case KAL:
+					writer.println("(voice_kal_diphone)");
+					break;
+				case RAB:
+					writer.println("(voice_rab_diphone)");
+					break;
+				case JOHN:
+					writer.println("(voice_akl_nz_jdt_diphone)");
+					break;
+			}
+
+			writer.write("(set! duffint_params '((start " + pitch + ")(end " + (pitch - utteranceRange) + ")))");
+			writer.write("(Parameter.set 'Int_Method 'DuffInt)");
+			writer.write("(Parameter.set 'Int_Target_Method Int_Targets_Default)");
+
+			writer.write("(Parameter.set 'Duration_Stretch " + (1 / speed) + ")");
+
+			writer.write("(SayText \"" + text + "\")");
+
+			writer.close();
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+
+		executeCurrentSchemeFile();
 	}
 
 	public boolean isSpeaking(){
@@ -104,40 +133,7 @@ public class FestivalSpeech {
 			String fileLink = file.toURI().toURL().getPath();
 			fileLink = fileLink.replace("%20", "\\ ");
 
-			String process = "echo \"" + text + "\" | text2wave -o temp.wav";
-			process += " && ffmpeg -i temp.wav -f mp3 -y " + fileLink;
-			process += " && rm temp.wav";
-
-			ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", process);
-			pb.start().waitFor();
-
-		} catch (IOException e) {
-			WarningDialogue.genericError(e.getMessage());
-		} catch (InterruptedException e) {
-			WarningDialogue.genericError(e.getMessage());
-		}
-
-
-	}
-	
-	/**
-	 * Call festival and actually say the text stored in the 'text' field.
-	 * Note that this method is private and is called by the FestivalSpeech class internally
-	 */
-	private void sayText() {
-//		ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", "echo \"" + text + "\" | festival --tts");
-		ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", "festival -b tempScheme.scm");
-		try {			
-			p = pb.start();
-		} catch (Exception e){
-			WarningDialogue.genericError(e.getMessage());
-		}
-		
-	}
-
-	private File createSchemeFile(){
-		try {
-			File file = new File("tempScheme.scm");
+			File schemeFile = new File("tempScheme.scm");
 
 			PrintWriter writer = new PrintWriter("tempScheme.scm", "UTF-8");
 
@@ -159,16 +155,31 @@ public class FestivalSpeech {
 
 			writer.write("(Parameter.set 'Duration_Stretch " + (1 / speed) + ")");
 
-			writer.write("(SayText \"" + text + "\")");
+			writer.write("(utt.save.wave (SayText \"" + text +"\") \"" + fileLink + "\" 'riff)");
 
 			writer.close();
-
-			return file;
 
 		} catch (IOException e){
 			e.printStackTrace();
 		}
-		return null;
+
+		executeCurrentSchemeFile();
+
+	}
+	
+	/**
+	 * Call festival and actually say the text stored in the 'text' field.
+	 * Note that this method is private and is called by the FestivalSpeech class internally
+	 */
+	private void executeCurrentSchemeFile() {
+//		ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", "echo \"" + text + "\" | festival --tts");
+		ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", "festival -b tempScheme.scm");
+		try {			
+			p = pb.start();
+		} catch (Exception e){
+			WarningDialogue.genericError(e.getMessage());
+		}
+		
 	}
 
 	/**
