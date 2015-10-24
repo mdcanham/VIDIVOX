@@ -1,6 +1,6 @@
 package com.vidivox.controller;
 
-import com.vidivox.generators.AudioDictation;
+import com.vidivox.generator.AudioDictation;
 import com.vidivox.Main;
 import com.vidivox.taskThreads.RenderVideoTask;
 import com.vidivox.view.WarningDialogue;

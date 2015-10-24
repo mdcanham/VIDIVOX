@@ -1,15 +1,13 @@
 package com.vidivox.controller;
 
-import com.vidivox.generators.FestivalSpeech;
+import com.vidivox.generator.FestivalSpeech;
 import com.vidivox.Main;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.control.*;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;

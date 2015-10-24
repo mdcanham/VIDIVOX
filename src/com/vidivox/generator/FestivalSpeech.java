@@ -1,4 +1,4 @@
-package com.vidivox.generators;
+package com.vidivox.generator;
 
 import com.vidivox.view.WarningDialogue;
 
