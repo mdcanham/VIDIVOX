@@ -39,11 +39,11 @@ public class RenderVideoTask extends Service<Void> {
                 ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", process);
                 pb.start().waitFor();
 
-                updateMessage("Removing audio from remaining video");
+                updateMessage("Removing audio from original video");
                 updateProgress(20, 100);
 
                 //Strip the audio from the video
-                process = "ffmpeg -y -i " + newVideoFilePath + " -an /tmp/tempVideoNoSound.mp4";
+                process = "ffmpeg -y -i " + newVideoFilePath + " -an -vcodec copy /tmp/tempVideoNoSound.mp4";
                 pb = new ProcessBuilder("/bin/sh", "-c", process);
                 pb.start().waitFor();
 
@@ -73,7 +73,7 @@ public class RenderVideoTask extends Service<Void> {
                 updateProgress(80, 100);
 
                 //Finally merge together the audio and the video
-                process = "ffmpeg -y -i /tmp/tempVideoNoSound.mp4 -i /tmp/tempFullOutput.mp3 -strict -2 -b:a 32k -preset ultrafast -filter_complex \"[1:0] apad\" -shortest " + outputVideoFile.toURI().toURL().getPath().replace("%20", "\\ ");
+                process = "ffmpeg -y -i /tmp/tempVideoNoSound.mp4 -i /tmp/tempFullOutput.mp3 -map 0:0 -map 1:0 -ac 2 -vcodec copy -acodec copy " + outputVideoFile.toURI().toURL().getPath().replace("%20", "\\ ");
                 pb = new ProcessBuilder("/bin/sh", "-c", process);
                 pb.start().waitFor();
 
