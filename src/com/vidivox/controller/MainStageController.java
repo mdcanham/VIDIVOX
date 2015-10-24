@@ -35,6 +35,7 @@ import java.util.ResourceBundle;
 public class MainStageController implements Initializable {
 
     public static File currentVideoLocation;
+    public static File originalVideoLocation;
 
     public static ObservableList<AudioDictation> audioItems = FXCollections.observableArrayList();
 
@@ -154,7 +155,7 @@ public class MainStageController implements Initializable {
     private void handleApplyChangesButton(){
         audioList.getSelectionModel().getSelectedItem().inTime = Integer.parseInt(inTimeTextField.getText());
         File videoTempLocation = new File("/tmp/temporaryRender.mp4");
-        RenderVideoTask renderVideoTask = new RenderVideoTask(currentVideoLocation, videoTempLocation, removeOriginalAudioCheckbox.isSelected(), audioItems);
+        RenderVideoTask renderVideoTask = new RenderVideoTask(originalVideoLocation, videoTempLocation, removeOriginalAudioCheckbox.isSelected(), audioItems);
 
         renderVideoTask.setOnScheduled(new EventHandler<WorkerStateEvent>() {
             @Override
@@ -204,6 +205,7 @@ public class MainStageController implements Initializable {
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Video Files", "*.mp4");
         fileChooser.getExtensionFilters().add(extensionFilter);
         File file = fileChooser.showOpenDialog(new Stage());
+        originalVideoLocation = originalVideoLocation == null ? file : originalVideoLocation;
         openNewVideo(file);
 
         //Remove the "Import a media track..." background
