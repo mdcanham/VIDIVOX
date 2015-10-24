@@ -15,6 +15,11 @@ public class FestivalSpeech {
 	private String text;
 	private int pid;
 	private Process p;
+
+	private double pitch;
+	private double utteranceRange;
+	private double speed;
+	private Voice voice;
 	
 	/**
 	 * 
@@ -22,13 +27,42 @@ public class FestivalSpeech {
 	 * The text that should be said.
 	 */
 	public FestivalSpeech(String textToSay) {
+		this(textToSay, Voice.KAL, 110, 20, 1);
+	}
+
+	public FestivalSpeech(String textToSay, Voice voice, double pitch, double utteranceRange, double speed){
 		this.text = textToSay;
+		this.pitch = pitch;
+		this.utteranceRange = utteranceRange;
+		this.speed = speed;
+		this.voice = voice;
+	}
+
+	public static enum Voice{
+		KAL, RAB, JOHN;
+	}
+
+	public static Voice getVoiceFromName(String name){
+
+		name = name.toLowerCase();
+
+		switch(name){
+			case "rab":
+				return Voice.RAB;
+			case "kal":
+				return Voice.KAL;
+			case "john":
+				return Voice.JOHN;
+			default:
+				return null;
+		}
 	}
 	
 	/**
 	 * Begin speaking the text that was entered when creating this object
 	 */
 	public void speak() {
+		createSchemeFile();
 		sayText();
 	}
 
@@ -91,7 +125,8 @@ public class FestivalSpeech {
 	 * Note that this method is private and is called by the FestivalSpeech class internally
 	 */
 	private void sayText() {
-		ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", "echo \"" + text + "\" | festival --tts");
+//		ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", "echo \"" + text + "\" | festival --tts");
+		ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", "festival -b tempScheme.scm");
 		try {			
 			p = pb.start();
 		} catch (Exception e){
@@ -99,6 +134,43 @@ public class FestivalSpeech {
 		}
 		
 	}
+
+	private File createSchemeFile(){
+		try {
+			File file = new File("tempScheme.scm");
+
+			PrintWriter writer = new PrintWriter("tempScheme.scm", "UTF-8");
+
+			switch (this.voice){
+				case KAL:
+					writer.println("(voice_kal_diphone)");
+					break;
+				case RAB:
+					writer.println("(voice_rab_diphone)");
+					break;
+				case JOHN:
+					writer.println("(voice_akl_nz_jdt_diphone)");
+					break;
+			}
+
+			writer.write("(set! duffint_params '((start " + pitch + ")(end " + (pitch - utteranceRange) + ")))");
+			writer.write("(Parameter.set 'Int_Method 'DuffInt)");
+			writer.write("(Parameter.set 'Int_Target_Method Int_Targets_Default)");
+
+			writer.write("(Parameter.set 'Duration_Stretch " + (1 / speed) + ")");
+
+			writer.write("(SayText \"" + text + "\")");
+
+			writer.close();
+
+			return file;
+
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	/**
 	 * Note that this method is private and is called by the FestivalSpeech class internally
 	 * 

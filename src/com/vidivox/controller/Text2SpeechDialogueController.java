@@ -7,6 +7,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseButton;
@@ -53,6 +54,9 @@ public class Text2SpeechDialogueController implements Initializable {
     private ChoiceBox<String> presetSelector = new ChoiceBox<String>();
 
     @FXML
+    private ToggleGroup voiceSelectGroup = new ToggleGroup();
+
+    @FXML
     private void handleSpeechPreviewButton(){
         if(currentFestivalPreview.isSpeaking()){
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -64,7 +68,9 @@ public class Text2SpeechDialogueController implements Initializable {
 
         String textToSay = speechTextArea.getText();
 
-        FestivalSpeech festival = new FestivalSpeech(textToSay);
+        RadioButton rb = (RadioButton)voiceSelectGroup.getSelectedToggle();
+
+        FestivalSpeech festival = new FestivalSpeech(textToSay, FestivalSpeech.getVoiceFromName(rb.getText()), pitchSelector.getValue(), acrossUtteranceSelector.getValue(), speedSelector.getValue());
 
         festival.speak();
 
@@ -120,6 +126,7 @@ public class Text2SpeechDialogueController implements Initializable {
         initaliseSpeedSelector();
         initalisePitchSelector();
         initaliseAcrossUtteranceSelector();
+        initaliseFestivalPresetListener();
         presetSelector.getItems().addAll("Male Happy Voice", "Male Normal Voice", "Male Sad Voice", "Female Happy Voice", "Female Normal Voice", "Female Sad Voice");
         presetSelector.getSelectionModel().select(1);
     }
@@ -210,7 +217,67 @@ public class Text2SpeechDialogueController implements Initializable {
 
     }
 
-    private void initaliseFestivalSelectionBoxListeners(){
+    private void initaliseFestivalPresetListener(){
+        presetSelector.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                switch(newValue){
+                    case "Male Happy Voice":
+                        setMaleHappyVoice();
+                        break;
+                    case "Male Normal Voice":
+                        setMaleNormalVoice();
+                        break;
+                    case "Male Sad Voice":
+                        setMaleSadVoice();
+                        break;
+                    case "Female Happy Voice":
+                        setFemaleHappyVoice();
+                        break;
+                    case "Female Normal Voice":
+                        setFemaleNormalVoice();
+                        break;
+                    case "Female Sad Voice":
+                        setFemaleSadVoice();
+                        break;
+                }
+            }
+        });
+    }
 
+    private void setMaleHappyVoice(){
+        pitchSelector.setValue(110);
+        acrossUtteranceSelector.setValue(20);
+        speedSelector.setValue(1.2);
+    }
+
+    private void setMaleNormalVoice(){
+        pitchSelector.setValue(102);
+        acrossUtteranceSelector.setValue(15);
+        speedSelector.setValue(1);
+    }
+
+    private void setMaleSadVoice(){
+        pitchSelector.setValue(70);
+        acrossUtteranceSelector.setValue(0);
+        speedSelector.setValue(0.5);
+    }
+
+    private void setFemaleHappyVoice(){
+        pitchSelector.setValue(210);
+        acrossUtteranceSelector.setValue(20);
+        speedSelector.setValue(1.2);
+    }
+
+    private void setFemaleNormalVoice(){
+        pitchSelector.setValue(185);
+        acrossUtteranceSelector.setValue(15);
+        speedSelector.setValue(1);
+    }
+
+    private void setFemaleSadVoice(){
+        pitchSelector.setValue(180);
+        acrossUtteranceSelector.setValue(0);
+        speedSelector.setValue(0.7);
     }
 }

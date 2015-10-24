@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.control.*?>
@@ -21,12 +22,13 @@
       <VBox prefHeight="283.0" prefWidth="219.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Select voice" />
-            <RadioButton mnemonicParsing="false" text="Kal">
+            <RadioButton fx:id="kalVoiceOption" mnemonicParsing="false" selected="true" text="Kal">
                <toggleGroup>
-                  <ToggleGroup fx:id="voiceSelect" />
-               </toggleGroup></RadioButton>
-            <RadioButton mnemonicParsing="false" text="Rab" toggleGroup="$voiceSelect" />
-            <RadioButton mnemonicParsing="false" text="John" toggleGroup="$voiceSelect" />
+                  <ToggleGroup fx:id="voiceSelectGroup" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="rabVoiceOption" mnemonicParsing="false" text="Rab" toggleGroup="$voiceSelectGroup" />
+            <RadioButton fx:id="johnVoiceOption" mnemonicParsing="false" text="John" toggleGroup="$voiceSelectGroup" />
             <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Basic">
