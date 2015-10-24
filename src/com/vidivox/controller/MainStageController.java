@@ -90,6 +90,9 @@ public class MainStageController implements Initializable {
     @FXML
     private Pane mediaContainer = new Pane();
 
+    @FXML
+    private Button currentTimeButton = new Button();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initaliseAudioList();
@@ -122,6 +125,13 @@ public class MainStageController implements Initializable {
                 inTimeTextField.setText(String.valueOf(newValue.inTime));
             }
         });
+
+        removeOriginalAudioCheckbox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                applyChangesButton.setDisable(false);
+            }
+        });
     }
 
     private void initaliseButtons(){
@@ -129,6 +139,10 @@ public class MainStageController implements Initializable {
         playPauseButton.setDisable(true);
         playPauseButton.getStyleClass().add("play");
         stopButton.setDisable(true);
+        mainProgressSlider.setDisable(true);
+        mainVolumeSlider.setDisable(true);
+        currentTimeButton.setDisable(true);
+
     }
 
     @FXML
@@ -312,6 +326,9 @@ public class MainStageController implements Initializable {
 
                 playPauseButton.setDisable(false);
                 stopButton.setDisable(false);
+                mainVolumeSlider.setDisable(false);
+                mainProgressSlider.setDisable(false);
+                currentTimeButton.setDisable(false);
 
                 //Add a listener to check the value of the slider and update the media element accordingly
                 mainProgressSlider.valueProperty().addListener(new ChangeListener<Number>() {

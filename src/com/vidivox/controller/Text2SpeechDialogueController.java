@@ -173,7 +173,7 @@ public class Text2SpeechDialogueController implements Initializable {
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                     if (mouseEvent.getClickCount() == 2) {
-                        pitchSelector.setValue(110);
+                        pitchSelector.setValue(102);
                     }
                 }
             }

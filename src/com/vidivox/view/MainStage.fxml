@@ -111,7 +111,7 @@
                         <Insets right="5.0" top="5.0" />
                      </HBox.margin></TextField>
                   <Pane HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" onAction="#handleSetAsCurrentTimeButton" text="Current Time" />
+                  <Button fx:id="currentTimeButton" mnemonicParsing="false" onAction="#handleSetAsCurrentTimeButton" text="Current Time" />
                </children>
             </HBox>
             <CheckBox fx:id="removeOriginalAudioCheckbox" mnemonicParsing="false" text="Remove original audio">
