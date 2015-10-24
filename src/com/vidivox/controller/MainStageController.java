@@ -132,13 +132,6 @@ public class MainStageController implements Initializable {
                 inTimeTextField.setText(String.valueOf(newValue.inTime));
             }
         });
-
-        removeOriginalAudioCheckbox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                applyChangesButton.setDisable(false);
-            }
-        });
     }
 
     private void initaliseButtons(){
@@ -245,9 +238,6 @@ public class MainStageController implements Initializable {
             audioItems.add(audio);
             audioList.setItems(audioItems);
             audioList.getSelectionModel().select(audio);
-            if(!leftProgressBar.visibleProperty().get()){
-                applyChangesButton.setDisable(false);
-            }
         }
     }
 
@@ -336,6 +326,7 @@ public class MainStageController implements Initializable {
                 mainVolumeSlider.setDisable(false);
                 mainProgressSlider.setDisable(false);
                 currentTimeButton.setDisable(false);
+                applyChangesButton.setDisable(false);
 
                 //Add a listener to check the value of the slider and update the media element accordingly
                 mainProgressSlider.valueProperty().addListener(new ChangeListener<Number>() {
