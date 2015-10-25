@@ -95,6 +95,9 @@ public class MainStageController implements Initializable {
     @FXML
     private Button currentTimeButton = new Button();
 
+    @FXML
+    private Button removeSelectedAudioButton = new Button();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initaliseAudioList();
@@ -121,6 +124,8 @@ public class MainStageController implements Initializable {
                         super.updateItem(item, empty);
                         if (item != null) {
                             setText(item.name);
+                        } else {
+                            setText("");
                         }
                     }
                 };
@@ -131,7 +136,9 @@ public class MainStageController implements Initializable {
         audioList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<AudioDictation>() {
             @Override
             public void changed(ObservableValue<? extends AudioDictation> observable, AudioDictation oldValue, AudioDictation newValue) {
-                inTimeTextField.setText(String.valueOf(newValue.inTime));
+                if(newValue != null) {
+                    inTimeTextField.setText(String.valueOf(newValue.inTime));
+                }
             }
         });
     }
@@ -144,7 +151,7 @@ public class MainStageController implements Initializable {
         mainProgressSlider.setDisable(true);
         mainVolumeSlider.setDisable(true);
         currentTimeButton.setDisable(true);
-
+        removeSelectedAudioButton.setDisable(true);
     }
 
     @FXML
@@ -153,8 +160,13 @@ public class MainStageController implements Initializable {
     }
 
     @FXML
+    private void removeSelectedAudioButtonHandler(){
+        audioItems.remove(audioList.getSelectionModel().getSelectedItem());
+        audioList.setItems(audioItems);
+    }
+
+    @FXML
     private void handleApplyChangesButton(){
-        audioList.getSelectionModel().getSelectedItem().inTime = Integer.parseInt(inTimeTextField.getText());
         final File videoTempLocation = new File("/tmp/temporaryRender.mp4");
         RenderVideoTask renderVideoTask = new RenderVideoTask(originalVideoLocation, videoTempLocation, removeOriginalAudioCheckbox.isSelected(), audioItems);
 
@@ -239,6 +251,7 @@ public class MainStageController implements Initializable {
         if(file != null){
             AudioDictation audio = new AudioDictation(file);
             audioItems.add(audio);
+            removeSelectedAudioButton.setDisable(false);
             audioList.setItems(audioItems);
             audioList.getSelectionModel().select(audio);
         }

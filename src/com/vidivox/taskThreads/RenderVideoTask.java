@@ -74,7 +74,6 @@ public class RenderVideoTask extends Service<Void> {
 
                 //Finally merge together the audio and the video
                 process = "ffmpeg -y -i /tmp/tempVideoNoSound.mp4 -i /tmp/tempFullOutput.mp3 -strict experimental -acodec aac -b:a 32k -vcodec copy -filter_complex \"[1:0]apad\" -shortest " + outputVideoFile.toURI().toURL().getPath().replace("%20", "\\ ");
-                System.out.println(process);
                 pb = new ProcessBuilder("/bin/sh", "-c", process);
                 pb.start().waitFor();
 
