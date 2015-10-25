@@ -35,7 +35,7 @@ public class RenderVideoTask extends Service<Void> {
                 updateProgress(0, 100);
 
                 //Extract the audio from the original video
-                String process = "ffmpeg -y -i " + newVideoFilePath + " -vn /tmp/tempAudio.mp3";
+                String process = "ffmpeg -y -i " + newVideoFilePath + " -vn /tmp/originalAudio.mp3";
                 ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", process);
                 pb.start().waitFor();
 
@@ -54,7 +54,7 @@ public class RenderVideoTask extends Service<Void> {
                 StringBuilder ffmpegInputs = new StringBuilder();
                 int inputCount = 0;
                 if (!mute) {
-                    ffmpegInputs.append(" -i /tmp/tempAudio.mp3");
+                    ffmpegInputs.append(" -i /tmp/originalAudio.mp3");
                     inputCount++;
                 }
                 Iterator<AudioDictation> it = audioDictations.iterator();
@@ -65,7 +65,7 @@ public class RenderVideoTask extends Service<Void> {
                 }
 
                 //Merge the audio inputs into one single file
-                process = "ffmpeg -y" + ffmpegInputs.toString() + " -filter_complex amix=inputs=" + inputCount + " -async 1 /tmp/tempFullOutput.mp3";
+                process = "ffmpeg -y" + ffmpegInputs.toString() + " -filter_complex amix=inputs=" + inputCount + " -ac 2 -async 1 /tmp/tempFullOutput.mp3";
                 pb = new ProcessBuilder("/bin/sh", "-c", process);
                 pb.start().waitFor();
 

@@ -29,6 +29,7 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -154,7 +155,7 @@ public class MainStageController implements Initializable {
     @FXML
     private void handleApplyChangesButton(){
         audioList.getSelectionModel().getSelectedItem().inTime = Integer.parseInt(inTimeTextField.getText());
-        File videoTempLocation = new File("/tmp/temporaryRender.mp4");
+        final File videoTempLocation = new File("/tmp/temporaryRender.mp4");
         RenderVideoTask renderVideoTask = new RenderVideoTask(originalVideoLocation, videoTempLocation, removeOriginalAudioCheckbox.isSelected(), audioItems);
 
         renderVideoTask.setOnScheduled(new EventHandler<WorkerStateEvent>() {
@@ -183,7 +184,7 @@ public class MainStageController implements Initializable {
         renderVideoTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent event) {
-                openNewVideo(new File("/tmp/temporaryRender.mp4"));
+                openNewVideo(videoTempLocation);
                 mainMediaPlayer.play();
 
                 leftActivityInfo.setText("Changes applied");
@@ -212,7 +213,7 @@ public class MainStageController implements Initializable {
         mediaContainer.getStyleClass().removeAll("init");
     }
 
-    private void openNewVideo(File file){
+    private void openNewVideo(File file) {
         if (file != null) {
             try {
 
@@ -222,6 +223,7 @@ public class MainStageController implements Initializable {
                 }
 
                 currentVideoLocation = file;
+                System.out.println("Opening video at location: " + file.toURI().toString());
                 mainMediaPlayer = new MediaPlayer(new Media(file.toURI().toString()));
                 mainMediaViewer.setMediaPlayer(mainMediaPlayer);
                 initalisePlayEnvironment();
