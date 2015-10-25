@@ -65,7 +65,7 @@ public class RenderVideoTask extends Service<Void> {
                 }
 
                 //Merge the audio inputs into one single file
-                process = "ffmpeg -y" + ffmpegInputs.toString() + " -filter_complex amix=inputs=" + inputCount + " -ac 2 -async 1 /tmp/tempFullOutput.mp3";
+                process = "ffmpeg -y" + ffmpegInputs.toString() + " -filter_complex amix=inputs=" + inputCount + " -ac 2 -ab 128k -async 1 /tmp/tempFullOutput.mp3";
                 pb = new ProcessBuilder("/bin/sh", "-c", process);
                 pb.start().waitFor();
 
@@ -73,7 +73,8 @@ public class RenderVideoTask extends Service<Void> {
                 updateProgress(80, 100);
 
                 //Finally merge together the audio and the video
-                process = "ffmpeg -y -i /tmp/tempVideoNoSound.mp4 -i /tmp/tempFullOutput.mp3 -map 0:0 -map 1:0 -ac 2 -vcodec copy -acodec copy " + outputVideoFile.toURI().toURL().getPath().replace("%20", "\\ ");
+                process = "ffmpeg -y -i /tmp/tempVideoNoSound.mp4 -i /tmp/tempFullOutput.mp3 -strict experimental -acodec aac -b:a 32k -vcodec copy -filter_complex \"[1:0]apad\" -shortest " + outputVideoFile.toURI().toURL().getPath().replace("%20", "\\ ");
+                System.out.println(process);
                 pb = new ProcessBuilder("/bin/sh", "-c", process);
                 pb.start().waitFor();
 

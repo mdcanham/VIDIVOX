@@ -223,7 +223,6 @@ public class MainStageController implements Initializable {
                 }
 
                 currentVideoLocation = file;
-                System.out.println("Opening video at location: " + file.toURI().toString());
                 mainMediaPlayer = new MediaPlayer(new Media(file.toURI().toString()));
                 mainMediaViewer.setMediaPlayer(mainMediaPlayer);
                 initalisePlayEnvironment();
