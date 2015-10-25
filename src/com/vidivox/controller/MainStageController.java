@@ -272,12 +272,8 @@ public class MainStageController implements Initializable {
         try {
             if(mainMediaPlayer.getStatus() == MediaPlayer.Status.PLAYING){
                 mainMediaPlayer.pause();
-                playPauseButton.getStyleClass().removeAll("pause");
-                playPauseButton.getStyleClass().add("play");
             } else {
                 mainMediaPlayer.play();
-                playPauseButton.getStyleClass().removeAll("play");
-                playPauseButton.getStyleClass().add("pause");
             }
         } catch (NullPointerException e){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -291,8 +287,6 @@ public class MainStageController implements Initializable {
     private void handleStopButton(){
         try {
             mainMediaPlayer.stop();
-            playPauseButton.getStyleClass().removeAll("pause");
-            playPauseButton.getStyleClass().add("play");
         } catch (NullPointerException e){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("No video open");
@@ -344,6 +338,9 @@ public class MainStageController implements Initializable {
                 currentTimeButton.setDisable(false);
                 applyChangesButton.setDisable(false);
 
+                playPauseButton.getStyleClass().removeAll("pause");
+                playPauseButton.getStyleClass().add("play");
+
                 //Add a listener to check the value of the slider and update the media element accordingly
                 mainProgressSlider.valueProperty().addListener(new ChangeListener<Number>() {
                     @Override
@@ -371,6 +368,39 @@ public class MainStageController implements Initializable {
                         int secondsInt = (int) Math.floor(seconds);
 
                         mainTimeLabel.setText(String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", secondsInt));
+                    }
+                });
+
+                mainMediaPlayer.setOnPlaying(new Runnable() {
+                    @Override
+                    public void run() {
+                        playPauseButton.getStyleClass().removeAll("play");
+                        playPauseButton.getStyleClass().add("pause");
+                    }
+                });
+
+                mainMediaPlayer.setOnPaused(new Runnable() {
+                    @Override
+                    public void run() {
+                        playPauseButton.getStyleClass().removeAll("pause");
+                        playPauseButton.getStyleClass().add("play");
+                    }
+                });
+
+                mainMediaPlayer.setOnStopped(new Runnable() {
+                    @Override
+                    public void run() {
+                        playPauseButton.getStyleClass().removeAll("pause");
+                        playPauseButton.getStyleClass().add("play");
+                    }
+                });
+
+                mainMediaPlayer.setOnEndOfMedia(new Runnable() {
+                    @Override
+                    public void run() {
+                        mainMediaPlayer.stop();
+                        playPauseButton.getStyleClass().removeAll("pause");
+                        playPauseButton.getStyleClass().add("play");
                     }
                 });
 
