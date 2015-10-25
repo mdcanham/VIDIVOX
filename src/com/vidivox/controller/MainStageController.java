@@ -151,6 +151,7 @@ public class MainStageController implements Initializable {
         mainProgressSlider.setDisable(true);
         mainVolumeSlider.setDisable(true);
         currentTimeButton.setDisable(true);
+        removeOriginalAudioCheckbox.setDisable(true);
         removeSelectedAudioButton.setDisable(true);
     }
 
@@ -337,6 +338,7 @@ public class MainStageController implements Initializable {
                 mainProgressSlider.setDisable(false);
                 currentTimeButton.setDisable(false);
                 applyChangesButton.setDisable(false);
+                removeOriginalAudioCheckbox.setDisable(false);
 
                 playPauseButton.getStyleClass().removeAll("pause");
                 playPauseButton.getStyleClass().add("play");
