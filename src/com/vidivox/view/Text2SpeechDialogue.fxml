@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -8,35 +9,66 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vidivox.controller.Text2SpeechDialogueController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@stylesheets/lightTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vidivox.controller.Text2SpeechDialogueController">
    <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="49.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="previewButton" mnemonicParsing="false" onAction="#handleSpeechPreviewButton" text="Preview" />
-            <Button fx:id="cancelPreviewButton" mnemonicParsing="false" onAction="#handleCancelPreviewButton" text="Cancel Preview" />
-            <Button mnemonicParsing="false" onAction="#handleSaveAndAddToProjectButton" text="Save and add to project" />
+            <Button fx:id="previewButton" mnemonicParsing="false" onAction="#handleSpeechPreviewButton" text="Preview">
+               <HBox.margin>
+                  <Insets left="10.0" top="10.0" />
+               </HBox.margin></Button>
+            <Button fx:id="cancelPreviewButton" mnemonicParsing="false" onAction="#handleCancelPreviewButton" text="Cancel Preview">
+               <HBox.margin>
+                  <Insets left="10.0" top="10.0" />
+               </HBox.margin></Button>
+            <Button mnemonicParsing="false" onAction="#handleSaveAndAddToProjectButton" text="Save and add to project">
+               <HBox.margin>
+                  <Insets left="10.0" top="10.0" />
+               </HBox.margin></Button>
          </children>
       </HBox>
    </bottom>
    <right>
-      <VBox prefHeight="283.0" prefWidth="219.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="309.0" prefWidth="239.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Select voice" />
+            <Label text="Select voice">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="10.0" />
+               </VBox.margin></Label>
             <RadioButton fx:id="kalVoiceOption" mnemonicParsing="false" selected="true" text="Kal">
                <toggleGroup>
                   <ToggleGroup fx:id="voiceSelectGroup" />
                </toggleGroup>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="10.0" />
+               </VBox.margin>
             </RadioButton>
-            <RadioButton fx:id="rabVoiceOption" mnemonicParsing="false" text="Rab" toggleGroup="$voiceSelectGroup" />
-            <RadioButton fx:id="johnVoiceOption" mnemonicParsing="false" text="John" toggleGroup="$voiceSelectGroup" />
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+            <RadioButton fx:id="rabVoiceOption" mnemonicParsing="false" text="Rab" toggleGroup="$voiceSelectGroup">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="10.0" />
+               </VBox.margin>
+            </RadioButton>
+            <RadioButton fx:id="johnVoiceOption" mnemonicParsing="false" text="John" toggleGroup="$voiceSelectGroup">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" />
+               </VBox.margin>
+            </RadioButton>
+            <TabPane prefHeight="218.0" prefWidth="239.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Basic">
                      <content>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <Label text="Select preset voice" />
-                              <ChoiceBox fx:id="presetSelector" prefWidth="150.0" />
+                              <Label text="Select preset voice">
+                                 <VBox.margin>
+                                    <Insets left="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <ChoiceBox fx:id="presetSelector" prefWidth="150.0">
+                                 <VBox.margin>
+                                    <Insets left="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </ChoiceBox>
                            </children>
                         </VBox>
                      </content>
@@ -45,14 +77,38 @@
                      <content>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <Label fx:id="pitchSelectorLabel" text="Pitch" />
-                              <Slider fx:id="pitchSelector" showTickLabels="true" showTickMarks="true" />
+                              <Label fx:id="pitchSelectorLabel" text="Pitch">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Slider fx:id="pitchSelector" showTickLabels="true" showTickMarks="true">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </Slider>
                               <Separator prefWidth="200.0" />
-                              <Label fx:id="acrossUtteranceSelectorLabel" layoutX="10.0" layoutY="10.0" text="Across utterance range" />
-                              <Slider fx:id="acrossUtteranceSelector" layoutX="10.0" layoutY="27.0" showTickLabels="true" showTickMarks="true" />
+                              <Label fx:id="acrossUtteranceSelectorLabel" layoutX="10.0" layoutY="10.0" text="Across utterance range">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Slider fx:id="acrossUtteranceSelector" layoutX="10.0" layoutY="27.0" showTickLabels="true" showTickMarks="true">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </Slider>
                               <Separator prefWidth="200.0" />
-                              <Label fx:id="speedSelectorLabel" text="Voice speed" />
-                              <Slider fx:id="speedSelector" showTickLabels="true" showTickMarks="true" />
+                              <Label fx:id="speedSelectorLabel" text="Voice speed">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Slider fx:id="speedSelector" showTickLabels="true" showTickMarks="true">
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </Slider>
                            </children>
                         </VBox>
                      </content>
@@ -66,6 +122,12 @@
       <TextArea fx:id="speechTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Enter text here..." wrapText="true" BorderPane.alignment="CENTER" />
    </center>
    <top>
-      <Label text="Text to speech dialogue" BorderPane.alignment="CENTER" />
+      <Label text="Text to Speech" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </BorderPane.margin></Label>
    </top>
 </BorderPane>
