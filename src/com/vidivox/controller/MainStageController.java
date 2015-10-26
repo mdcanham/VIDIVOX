@@ -2,6 +2,7 @@ package com.vidivox.controller;
 
 import com.vidivox.generator.AudioDictation;
 import com.vidivox.Main;
+import com.vidivox.generator.FestivalSpeech;
 import com.vidivox.taskThreads.RenderVideoTask;
 import com.vidivox.view.WarningDialogue;
 import javafx.beans.value.ChangeListener;
@@ -31,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ResourceBundle;
 
 public class MainStageController implements Initializable {
@@ -98,6 +100,9 @@ public class MainStageController implements Initializable {
     @FXML
     private Button removeSelectedAudioButton = new Button();
 
+    @FXML
+    private Button exportAsMP4Button = new Button();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initaliseAudioList();
@@ -164,6 +169,64 @@ public class MainStageController implements Initializable {
     private void removeSelectedAudioButtonHandler(){
         audioItems.remove(audioList.getSelectionModel().getSelectedItem());
         audioList.setItems(audioItems);
+    }
+
+    @FXML
+    private void handleExportAsMP4Button(){
+        if(currentVideoLocation != null){
+
+            final FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save video as MP4");
+            fileChooser.setInitialFileName("MyVidivoxVideo.mp4");
+            try {
+                File outputFileLocation = fileChooser.showSaveDialog(new Stage());
+
+                final File videoTempLocation = new File("/tmp/temporaryRender.mp4");
+
+                RenderVideoTask renderVideoTask = new RenderVideoTask(originalVideoLocation, outputFileLocation, removeOriginalAudioCheckbox.isSelected(), audioItems);
+
+                renderVideoTask.setOnScheduled(new EventHandler<WorkerStateEvent>() {
+                    @Override
+                    public void handle(WorkerStateEvent event) {
+                        leftActivityInfo.setText("Exporting video as MP4");
+                        leftProgressBar.setVisible(true);
+                    }
+                });
+
+                renderVideoTask.progressProperty().addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                        leftProgressBar.setProgress((double) newValue);
+                    }
+                });
+
+                renderVideoTask.messageProperty().addListener(new ChangeListener<String>() {
+                    @Override
+                    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                        rightActivityInfo.setText(newValue);
+                    }
+                });
+
+                renderVideoTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+                    @Override
+                    public void handle(WorkerStateEvent event) {
+                        leftActivityInfo.setText("Video Exported as MP4.");
+                        rightActivityInfo.setText("");
+                        leftProgressBar.setVisible(false);
+                        applyChangesButton.setDisable(false);
+
+
+                    }
+                });
+
+                renderVideoTask.restart();
+
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            }
+        } else {
+            new WarningDialogue("You need to open a video before you can export it as MP4.");
+        }
     }
 
     @FXML
