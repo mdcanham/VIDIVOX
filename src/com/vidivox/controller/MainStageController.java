@@ -172,6 +172,26 @@ public class MainStageController implements Initializable {
     }
 
     @FXML
+    private void handleAboutVidivoxButton(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vidivox/view/AboutVidivox.fxml"));
+
+            BorderPane pane = loader.load();
+            Scene scene = new Scene(pane);
+
+            final Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            stage.setScene(scene);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e){
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleExportAsMP4Button(){
         if(currentVideoLocation != null){
 
