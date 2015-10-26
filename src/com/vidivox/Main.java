@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
- *
+ * Main class that initalises the JavaFX gui
  */
 public class Main extends Application {
 

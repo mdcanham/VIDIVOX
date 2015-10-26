@@ -2,7 +2,9 @@ package com.vidivox.generator;
 
 import java.io.File;
 
-
+/**
+ * A class that wraps audio files that are imported into the Vidivox system
+ */
 public class AudioDictation {
     public String name;
     public File location;

@@ -8,6 +8,9 @@ import javafx.concurrent.Task;
 import java.io.File;
 import java.util.Iterator;
 
+/**
+ * Render out the final video on a seperate thread
+ */
 public class RenderVideoTask extends Service<Void> {
 
     File inputVideoFile;

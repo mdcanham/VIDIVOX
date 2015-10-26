@@ -42,6 +42,11 @@ public class FestivalSpeech {
 		KAL, RAB, JOHN;
 	}
 
+	/**
+	 * Determine the Voice enum object that is being referred  by a string of text
+	 * @param name
+	 * @return
+	 */
 	public static Voice getVoiceFromName(String name){
 
 		name = name.toLowerCase();
@@ -95,6 +100,10 @@ public class FestivalSpeech {
 		executeCurrentSchemeFile();
 	}
 
+	/**
+	 * Check if the festival process is currently speaking
+	 * @return
+	 */
 	public boolean isSpeaking(){
 		if(p != null && p.isAlive()){
 			return true;

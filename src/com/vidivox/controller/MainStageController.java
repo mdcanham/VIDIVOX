@@ -35,12 +35,16 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.util.ResourceBundle;
 
+/**
+ * A controller class for the MainStage
+ */
 public class MainStageController implements Initializable {
 
     public static File currentVideoLocation;
     public static File originalVideoLocation;
-
     public static ObservableList<AudioDictation> audioItems = FXCollections.observableArrayList();
+
+    //Initalise FXML elements
 
     @FXML
     public MediaView mainMediaViewer = new MediaView();
@@ -118,6 +122,9 @@ public class MainStageController implements Initializable {
         });
     }
 
+    /**
+     * Prepare the audio list for use
+     */
     private void initaliseAudioList(){
         audioList.setCellFactory(new Callback<ListView<AudioDictation>, ListCell<AudioDictation>>() {
             @Override
@@ -148,10 +155,16 @@ public class MainStageController implements Initializable {
         });
     }
 
+    /**
+     * Initalise all of the buttons in the UI that need to be disabled when the applicaiton is first loaded.
+     */
     private void initaliseButtons(){
-        applyChangesButton.setDisable(true);
-        playPauseButton.setDisable(true);
+        //Add the play class the play pause button so that it has the play symbol.
         playPauseButton.getStyleClass().add("play");
+
+        //Disable all of the buttons that need to be disabled.
+        playPauseButton.setDisable(true);
+        applyChangesButton.setDisable(true);
         stopButton.setDisable(true);
         mainProgressSlider.setDisable(true);
         mainVolumeSlider.setDisable(true);
@@ -309,6 +322,10 @@ public class MainStageController implements Initializable {
         mediaContainer.getStyleClass().removeAll("init");
     }
 
+    /**
+     * Open a new video into the main media player
+     * @param file
+     */
     private void openNewVideo(File file) {
         if (file != null) {
             try {
@@ -331,6 +348,10 @@ public class MainStageController implements Initializable {
         }
     }
 
+    /**
+     * Add a new audio file to the project
+     * @param file
+     */
     public void addAudioFile(File file){
         if(file != null){
             AudioDictation audio = new AudioDictation(file);
@@ -406,15 +427,20 @@ public class MainStageController implements Initializable {
         inTimeTextField.setText(String.valueOf(currentTime));
     }
 
+    /**
+     * Set up the play environment ready to handle a newly opened video file.
+     */
     private void initalisePlayEnvironment(){
 
         mainMediaPlayer.setOnReady(new Runnable() {
             @Override
             public void run() {
+                //Set up the main progress slider
                 mainProgressSlider.setValue(0);
                 mainProgressSlider.setMin(0);
                 mainProgressSlider.setMax(mainMediaPlayer.getTotalDuration().toMillis());
 
+                //Enable all of the UI buttons that may have been disabled.
                 playPauseButton.setDisable(false);
                 stopButton.setDisable(false);
                 mainVolumeSlider.setDisable(false);
@@ -423,6 +449,7 @@ public class MainStageController implements Initializable {
                 applyChangesButton.setDisable(false);
                 removeOriginalAudioCheckbox.setDisable(false);
 
+                //Reset the play/pause button
                 playPauseButton.getStyleClass().removeAll("pause");
                 playPauseButton.getStyleClass().add("play");
 

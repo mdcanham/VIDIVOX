@@ -17,9 +17,14 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * A controller class for the Text to Speech dialogue box
+ */
 public class Text2SpeechDialogueController implements Initializable {
 
     private FestivalSpeech currentFestivalPreview = new FestivalSpeech("");
+
+    //Setup all FXML elements
 
     @FXML
     private TextArea speechTextArea;
@@ -133,6 +138,7 @@ public class Text2SpeechDialogueController implements Initializable {
         presetSelector.getSelectionModel().select(1);
     }
 
+    //Set up the speed selector
     private void initaliseSpeedSelector(){
         speedSelector.minProperty().setValue(0.5);
         speedSelector.maxProperty().setValue(2);
@@ -162,6 +168,7 @@ public class Text2SpeechDialogueController implements Initializable {
         });
     }
 
+    //Set up the pitch selector
     private void initalisePitchSelector(){
         pitchSelector.minProperty().setValue(50);
         pitchSelector.maxProperty().setValue(300);
@@ -190,6 +197,7 @@ public class Text2SpeechDialogueController implements Initializable {
         });
     }
 
+    //Set up the across utterance selector
     private void initaliseAcrossUtteranceSelector(){
         acrossUtteranceSelector.minProperty().setValue(0);
         acrossUtteranceSelector.maxProperty().setValue(80);
@@ -219,6 +227,7 @@ public class Text2SpeechDialogueController implements Initializable {
 
     }
 
+    //Listen for changes to the festival preset box
     private void initaliseFestivalPresetListener(){
         presetSelector.valueProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -246,6 +255,8 @@ public class Text2SpeechDialogueController implements Initializable {
             }
         });
     }
+
+    //Set up the defaults for the differnt preset selectors
 
     private void setMaleHappyVoice(){
         pitchSelector.setValue(110);
